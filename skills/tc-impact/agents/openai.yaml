@@ -1,0 +1,4 @@
+interface:
+  display_name: "Tracecraft Impact"
+  short_description: "Assess change impact and verification needs"
+  default_prompt: "Use $tc-impact to assess this proposed change and report affected dependencies and verification needs."

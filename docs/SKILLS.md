@@ -1,6 +1,6 @@
 # Use the workflow skills
 
-The repository includes `tc-specify`, `tc-architect`, `tc-plan`, `tc-implement`, `tc-test` and `tc-review`. These are usable instruction files with templates and shared guidance. They use your existing coding assistant; the CLI does not call a model.
+The repository includes `tc-specify`, `tc-architect`, `tc-plan`, `tc-implement`, `tc-test`, `tc-review` and `tc-impact`. These are usable instruction files with templates and shared guidance. They use your existing coding assistant; the CLI does not call a model.
 
 ## Run from the checkout
 
@@ -33,6 +33,7 @@ Default destination in the selected application:
   implementation/TASK-001.md
   verification/<run-id>.md
   reviews/<review-id>.md
+  impacts/<impact-id>.md
 ```
 
 Specify owns requirements and the brief; architect owns active decisions and architecture notes; plan owns tasks, planned tests and the implementation plan. Reruns preserve existing downstream work and report what needs reconsideration. Templates are located within each skill's `assets/` directory.
@@ -66,3 +67,18 @@ Use the [scenario cards](../evals/first-three-skills.md) in an isolated applicat
 Implementation/testing have [additional scenario cards](../evals/execution-skills.md) and a [same-session boundary-fix pilot](../evals/execution-skills-pilot.md). That pilot does not establish cross-host reliability or improvement over an unstructured assistant.
 
 Review has [scenario cards](../evals/review-skill.md) and a [same-session seeded-regression report](../evals/review-skill-pilot.md). The pilot preserves reviewed source/test bytes and illustrates why a passing test suite can still leave a requirement violated; it is not independent-agent evaluation.
+
+## Assess a proposed change
+
+Use impact assessment whenever an existing requirement, criterion, assumption or design decision changes:
+
+```text
+Read <tracecraft-checkout>/skills/tc-impact/SKILL.md and use it in
+<application-repository> for .tracecraft/features/<feature-id>/feature.json.
+Assess changing <node-id> from <current behavior> to <proposed behavior>.
+Write an impact report before editing the contract or application.
+```
+
+The skill combines the existing `impact` CLI with inspection of relevant code and reports. It writes `impacts/<impact-id>.md`, separating declared dependencies from additional risks. AC impact is conservative through its owning requirement; ASM impact follows requirements citing that assumption. Empty results do not mean no impact. Invalid/incomplete contracts limit the graph assessment rather than silently producing a success claim.
+
+Impact reports recommend updates and re-verification; automated freshness is still planned. They are not included in context exports, and `context --stage impact` is not supported. See [impact evaluation scenarios](../evals/impact-skill.md).

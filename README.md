@@ -4,7 +4,7 @@
 
 Tracecraft is a proposed open-source workflow toolkit for developers using AI coding assistants. It keeps requirements, architecture decisions, implementation tasks, and test plans connected in a repository. The name is provisional; package and trademark availability have not been checked.
 
-This is a working **0.1.0 prototype**, not the complete MVP. It contains six workflow skills, reusable templates, a local CLI with versioned JSON Schema validation, example feature contracts, tests, and an implementable product and repository plan. No gstack source or prompts were copied.
+This is a working **0.1.0 prototype**, not the complete MVP. It contains seven workflow skills, reusable templates, a local CLI with versioned JSON Schema validation, example feature contracts, tests, and an implementable product and repository plan. No gstack source or prompts were copied.
 
 ## Start here
 
@@ -130,11 +130,15 @@ For longer sessions, the `context` command exports a bounded packet of planning 
 
 The toolkit targets any application language. Its own CLI uses JavaScript ES modules, Ajv for JSON Schema and Node's built-in test runner. Revision-bound verification records and tested host adapters remain planned.
 
+## Assess changes to an existing feature
+
+Use `skills/tc-impact/SKILL.md` with a feature contract, changed node ID and proposed behavior. It combines declared graph dependencies with code inspection and writes an impact report recommending updates and re-verification. It does not change the contract or application. See [usage and limitations](docs/SKILLS.md#assess-a-proposed-change).
+
 ## Status and scope
 
 | Capability | Available today | Planned |
 | --- | --- | --- |
-| Workflow | Six file-based skills and reusable templates | Tested host adapters and installers |
+| Workflow | Seven file-based skills and reusable templates | Tested host adapters and installers |
 | Contracts | v2 sources, assumptions and criterion IDs; v1 support; non-overwriting migration | Further workflow automation |
 | Validation | Structural stage checks, references and declared coverage | Evidence freshness and automated review gates |
 | Context | Bounded planning packets, source hashes and explicit omissions | Task-specific filtering |
