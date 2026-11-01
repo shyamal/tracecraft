@@ -4,13 +4,16 @@
 
 | Command | Inputs | Output / effects | Failure |
 |---|---|---|---|
-| `tracecraft new <file> <feature-id>` | Explicit new file path; lowercase hyphenated ID | Draft JSON, exclusive create; parent must already exist | Existing file, invalid ID or I/O: exit 2 |
+| `tracecraft new <file> <feature-id>` | Explicit new file path; lowercase hyphenated ID | Draft v2 JSON, exclusive create; parent must already exist | Existing file, invalid ID or I/O: exit 2 |
 | `tracecraft check <file> [--stage specify\|architect\|plan]` | Feature JSON; default stage is plan | Read-only `{ok, scope, stage, diagnostics}` | Invalid contract: exit 1; parse/I/O/usage: exit 2 |
 | `tracecraft impact <file> <node-id>` | Structurally valid feature; existing node ID | Read-only `{changed, affected}` with sorted transitive IDs | Invalid contract: exit 1; unknown ID: exit 2 |
 | `tracecraft context <file> --stage <stage> [--max-bytes <limit>]` | Feature JSON; explicit supported stage | Bounded JSON packet with selected feature data, companion text, hashes and omissions | Invalid contract: exit 1; usage/I/O/required-size: exit 2 |
 | `tracecraft doctor [--project <directory>]` | Current directory or explicit project | Read-only local setup checks and remedies | Failed checks: exit 1; usage/unexpected errors: exit 2 |
+| `tracecraft migrate <v1-file> <new-v2-file>` | Valid v1 contract; new output path | V2 draft, preserved IDs/text, warnings and unresolved plan diagnostics | Invalid/unsupported data: exit 1; usage/parse/I/O: exit 2 |
 
 Run through `node bin/tracecraft.mjs` from this source tree. These commands neither invoke AI nor run product tests. `check` passing means structural coverage, not implementation completion. Errors contain a machine-readable code and an actionable message.
+
+Install dependencies with `npm ci --ignore-scripts` first. Both feature versions are supported. See [schema v2 and migration](SCHEMA.md) for criterion-level coverage, source/assumption fields and conservative AC/ASM impact behavior.
 
 Context stages: specify, architect, plan, implement, test, review. The [context guide](CONTEXT.md) defines selections, prerequisite checks and byte limits. Optional document omissions are warnings in a successful packet; required contract failures stop export.
 

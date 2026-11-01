@@ -3,6 +3,7 @@
 From the Tracecraft checkout, inspect the current directory:
 
 ```sh
+npm ci --ignore-scripts
 node bin/tracecraft.mjs doctor
 ```
 
@@ -22,7 +23,7 @@ Output is JSON containing `ok`, `scope`, `project`, `toolkitVersion`, `checks` a
 |---|---|
 | `runtime` | Current Node.js meets the package's >=24 engine minimum. This is not a live check of Node release support or patch currency. |
 | `toolkit.manifest` | The package metadata identifies Tracecraft and has a version. |
-| `toolkit.resources` | CLI modules, six workflow skills, shared guidance, review guidance and templates are readable nonempty files. This does not verify their semantic correctness or integrity. |
+| `toolkit.resources` | CLI modules, bundled schemas, six workflow skills, guidance and templates are readable nonempty files. This does not verify their semantic correctness or integrity. |
 | `project.directory` | The selected path is an accessible directory. |
 | `git.available` | Git responds locally. Missing/unresponsive Git is a warning: contract commands can still run. |
 | `project.git` | Git reports a working tree. A non-repository, bare repository or Git access refusal is a warning; Doctor does not change Git safety settings. |
@@ -36,7 +37,7 @@ Exit codes: 0 if no checks failed, 1 for a diagnosed setup failure, 2 for invali
 
 ## Boundaries
 
-The CLI and its imported modules must start before diagnostics can run. Severe installation damage may prevent Doctor itself from launching; restore the complete checkout/package in that case. Doctor offers guidance and never repairs files automatically.
+The CLI and its imported modules must start before diagnostics can run. Missing validator dependencies or bundled schemas can prevent Doctor itself from launching; run `npm ci --ignore-scripts` or restore the complete checkout/package in that case. Doctor offers guidance and never repairs files automatically.
 
 The report includes the selected project path. It does not dump environment variables, credentials, Git remote URLs or config contents. Inherited `GIT_*` overrides are cleared for the probes so a different repository cannot be accidentally reported as the selected project. A reachable Git executable on PATH is assumed to be trusted; this command is not a process sandbox.
 

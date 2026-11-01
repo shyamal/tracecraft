@@ -5,7 +5,7 @@ description: Verify a Tracecraft feature or selected tasks against acceptance cr
 
 # Verify behavior against the contract
 
-Read [contract v1](../references/contract.md), [execution/evidence guidance](../references/execution.md), the selected feature's implementation notes and current code/tests. Use the [verification report template](assets/verification.md).
+Read [feature contracts](../references/contract.md), [execution/evidence guidance](../references/execution.md), the selected feature's implementation notes and current code/tests. Use the [verification report template](assets/verification.md).
 
 1. Confirm the requested feature/task scope and current input state. Run the plan-stage structural check if available. Build a criterion-to-test matrix from the contract and plan; inspect existing assertions rather than inferring coverage from filenames or test names. If implementation is absent, mark affected checks blocked instead of inventing a result.
 2. Select the smallest useful mix of regression, unit, integration and manual checks based on the changed behavior and risks. Add or improve test files within the testing request when necessary to observe an acceptance criterion. Do not edit production code during a test-only request. Report genuine product failures back to `tc-implement`; if the user already authorized a fix-and-test workflow, clearly separate repair from verification and recheck after the repair.

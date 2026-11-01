@@ -2,7 +2,7 @@
 
 This project is a prototype. Begin with the scoped backlog in `docs/ROADMAP.md`.
 
-Run `node --test` and the example CLI checks before submitting a change. Keep graph logic pure and separate from file operations. Add tests for behavior, malformed input and regression cases; avoid tests that merely restate source text.
+Run `npm ci --ignore-scripts`, then `node --test` and both v1/v2 example CLI checks before submitting a change. Keep graph logic pure and separate from file operations. Add tests for behavior, malformed input and regression cases; avoid tests that merely restate source text.
 
 Contract changes require a schema-version decision and migration notes. Prompt changes require a scenario explaining the intended behavioral improvement. Host support requires a real workflow run; successful installation alone is insufficient.
 

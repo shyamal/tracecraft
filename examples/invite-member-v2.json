@@ -1,0 +1,127 @@
+{
+  "schemaVersion": 2,
+  "id": "invite-member",
+  "title": "Workspace member invitations \u2014 fictional planning example",
+  "requirements": [
+    {
+      "id": "REQ-001",
+      "statement": "Only workspace administrators can invite members.",
+      "acceptance": [
+        {
+          "id": "AC-001",
+          "statement": "A member's invitation request returns forbidden and creates no invitation."
+        },
+        {
+          "id": "AC-002",
+          "statement": "An administrator can invite a valid email address."
+        }
+      ],
+      "sources": [
+        {
+          "kind": "repository",
+          "reference": "examples/invite-member.json (fictional planning fixture)"
+        },
+        {
+          "kind": "assumption",
+          "reference": "ASM-001"
+        }
+      ]
+    },
+    {
+      "id": "REQ-002",
+      "statement": "Invitation acceptance rejects tokens older than 24 hours.",
+      "acceptance": [
+        {
+          "id": "AC-003",
+          "statement": "A token at exactly 24 hours is rejected."
+        },
+        {
+          "id": "AC-004",
+          "statement": "A valid unused token younger than 24 hours can be accepted once."
+        }
+      ],
+      "sources": [
+        {
+          "kind": "repository",
+          "reference": "examples/invite-member.json (fictional planning fixture)"
+        }
+      ]
+    }
+  ],
+  "decisions": [
+    {
+      "id": "ADR-001",
+      "summary": "Use existing workspace authorization on both invitation creation and membership updates.",
+      "requirementIds": [
+        "REQ-001"
+      ]
+    },
+    {
+      "id": "ADR-002",
+      "summary": "Store hashed single-use tokens with server-side expiration; enforce acceptance transactionally.",
+      "requirementIds": [
+        "REQ-002"
+      ]
+    }
+  ],
+  "tasks": [
+    {
+      "id": "TASK-001",
+      "summary": "Implement invitation creation and authorization checks.",
+      "requirementIds": [
+        "REQ-001"
+      ],
+      "dependsOn": [
+        "ADR-001"
+      ]
+    },
+    {
+      "id": "TASK-002",
+      "summary": "Implement token acceptance with expiration and atomic consumption.",
+      "requirementIds": [
+        "REQ-002"
+      ],
+      "dependsOn": [
+        "ADR-002",
+        "TASK-001"
+      ]
+    }
+  ],
+  "tests": [
+    {
+      "id": "TEST-001",
+      "summary": "Planned authorization integration tests for administrator and member roles.",
+      "requirementIds": [
+        "REQ-001"
+      ],
+      "dependsOn": [
+        "TASK-001"
+      ],
+      "criterionIds": [
+        "AC-001",
+        "AC-002"
+      ]
+    },
+    {
+      "id": "TEST-002",
+      "summary": "Planned time-boundary and concurrent token-reuse tests.",
+      "requirementIds": [
+        "REQ-002"
+      ],
+      "dependsOn": [
+        "TASK-002"
+      ],
+      "criterionIds": [
+        "AC-003",
+        "AC-004"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "id": "ASM-001",
+      "statement": "The example workspace has administrator and member roles.",
+      "status": "open"
+    }
+  ]
+}

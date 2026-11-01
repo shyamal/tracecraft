@@ -3,15 +3,16 @@ import { readFile, writeFile } from 'node:fs/promises';
 import { draft, impact, validate, stages } from '../src/contract.mjs';
 import { createContext, contextStages, defaultContextBytes } from '../src/context.mjs';
 import { doctor } from '../src/doctor.mjs';
+import { migrateV1 } from '../src/migrate.mjs';
 
 const emit = value => process.stdout.write(`${JSON.stringify(value, null, 2)}\n`);
 const [command, file, extra, ...rest] = process.argv.slice(2);
-const usage = 'Usage: tracecraft new <file> <feature-id> | check <file> [--stage specify|architect|plan] | impact <file> <node-id> | context <file> --stage <specify|architect|plan|implement|test|review> [--max-bytes <2048..1048576>] | doctor [--project <directory>]';
+const usage = 'Usage: tracecraft new <file> <feature-id> | check <file> [--stage specify|architect|plan] | impact <file> <node-id> | context <file> --stage <specify|architect|plan|implement|test|review> [--max-bytes <2048..1048576>] | doctor [--project <directory>] | migrate <v1-file> <new-v2-file>';
 
 try {
   let stage = 'plan';
   let contextOptions;
-  if (!['new', 'check', 'impact', 'context', 'doctor'].includes(command)) throw new Error(usage);
+  if (!['new', 'check', 'impact', 'context', 'doctor', 'migrate'].includes(command)) throw new Error(usage);
   if (command === 'doctor') {
     if (file !== undefined && (file !== '--project' || !extra || extra.startsWith('--') || rest.length)) throw new Error(usage);
   } else if (!file) throw new Error(usage);
@@ -36,7 +37,11 @@ try {
       stage = rest[0];
     }
   } else if (command !== 'doctor' && (!extra || rest.length)) throw new Error(usage);
-  if (command === 'doctor') {
+  if (command === 'migrate') {
+    const result = migrateV1(JSON.parse(await readFile(file, 'utf8')));
+    await writeFile(extra, `${JSON.stringify(result.contract, null, 2)}\n`, { flag: 'wx' });
+    emit({ created: extra, schemaVersion: 2, warnings: result.warnings, planDiagnostics: result.planDiagnostics });
+  } else if (command === 'doctor') {
     const report = await doctor({ project: extra ?? process.cwd() });
     emit(report);
     process.exitCode = report.ok ? 0 : 1;

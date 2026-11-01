@@ -1,6 +1,6 @@
-# Tracecraft contract v1 and shared handoff rules
+# Tracecraft contracts and shared handoff rules
 
-Read this when creating or editing feature artifacts. The CLI supports the fields below. Keep richer rationale in companion Markdown; there is no execution or approval schema yet.
+Read this when creating or editing feature artifacts. The CLI supports v1 and v2. Use v2 for new features; preserve the version of existing features unless migration is requested or necessary and explained. Keep richer rationale in companion Markdown; there is no execution or approval schema yet. The shape schemas are bundled in the toolkit's schemas directory; install the validator dependency with `npm ci --ignore-scripts` before running the CLI from a checkout.
 
 ## Location and ownership
 
@@ -12,20 +12,22 @@ Read existing files before changing them. Preserve stable IDs and unrelated cont
 
 ```json
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "id": "example-feature",
   "title": "Example feature",
   "requirements": [
     {"id": "REQ-001", "statement": "An administrator can invite a member.",
-     "acceptance": ["A non-administrator request is rejected without creating an invitation."]}
+     "acceptance": [{"id": "AC-001", "statement": "A non-administrator request is rejected without creating an invitation."}],
+     "sources": [{"kind": "user", "reference": "Feature request: administrators invite members."}]}
   ],
   "decisions": [],
   "tasks": [],
-  "tests": []
+  "tests": [],
+  "assumptions": []
 }
 ```
 
-All four arrays are required, including empty downstream arrays at early stages. Each decision/task/test has:
+All four node arrays are required, including empty downstream arrays at early stages. V2 also requires assumptions (which may be empty). Each decision/task/test has:
 
 ```json
 {
@@ -38,15 +40,21 @@ All four arrays are required, including empty downstream arrays at early stages.
 
 Use the matching ID prefix. `requirementIds` is nonempty and refers only to existing requirements. `dependsOn` is optional and points to existing prerequisite node IDs. Nodes may depend on several requirements and prerequisites. Dependencies cannot be circular. Tests in this contract are planned test cases, never execution results.
 
+V2 tests additionally require `criterionIds`, for example `["AC-001"]`. Every criterion must exist and belong to a requirement named in that test's `requirementIds`. Use globally unique AC IDs and preserve them when editing or reordering. Empty criterion mappings are allowed before plan completion but cannot pass the plan-stage coverage check. Never infer assertion coverage solely from a test name or requirement link.
+
+V2 requirement sources have a kind of user, repository, issue, assumption or legacy, and a nonempty reference. Record actual provenance rather than inventing it. An assumption source refers to an existing ASM ID; assumptions are `{id, statement, status}` with status open, confirmed or rejected. Source truth and consequential assumption resolution still require human/agent judgment; a structural pass is not approval. Keep uncertain choices explicit, and do not mark an assumption confirmed without evidence. Legacy means the source was not recorded.
+
+Existing v1 contracts keep acceptance as nonempty strings and have no mandatory sources, assumptions or criterion mappings. V1 extension fields remain tolerated; v2 rejects unknown properties. `migrate <v1-file> <new-v2-file>` preserves the source, existing IDs and criterion text, assigns AC IDs, marks provenance legacy and leaves test mappings empty for review. Migration never rewrites companion documents. Reconcile unsupported extension fields explicitly; never drop them just to migrate.
+
 The validator checks shape, references, uniqueness and cycles for **all present nodes**, even at early stages. Coverage requirements differ:
 
 | Stage | Required coverage |
 |---|---|
 | `specify` | At least one requirement with nonempty acceptance criteria |
 | `architect` | Specify requirements plus at least one decision per requirement |
-| `plan` (default) | Architecture coverage plus at least one task and test per requirement |
+| `plan` (default) | Architecture coverage plus tasks/tests per requirement; v2 also requires every criterion mapped to a test and each test's named requirement represented by a mapped criterion |
 
-The current format maps tests to requirements, not individual criteria. The planning document must map every criterion to a proposed test, for example `REQ-001 criterion 2`. Those ordinal references are human-maintained, so reconsider them when acceptance criteria change. Structural coverage does not prove semantic completeness.
+Use AC IDs in v2 planning/test/review notes. For v1, the planning document must map every criterion to a proposed test, for example `REQ-001 criterion 2`; reconsider those human-maintained ordinal references when criteria change. Structural mapping does not prove semantic coverage or execution in either version.
 
 ## Validation and reporting
 

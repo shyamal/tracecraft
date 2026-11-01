@@ -37,7 +37,7 @@ Default destination in the selected application:
 
 Specify owns requirements and the brief; architect owns active decisions and architecture notes; plan owns tasks, planned tests and the implementation plan. Reruns preserve existing downstream work and report what needs reconsideration. Templates are located within each skill's `assets/` directory.
 
-Implement records task changes and observed checks. Test creates a new verification report for each session, mapping criteria to actual assertions or manual observations. Reports are agent-authored evidence, not trusted receipts; v1 JSON test nodes remain specifications. The CLI has no automatic task-completion or evidence-freshness state. `context` exports planning artifacts only, so read implementation/verification reports explicitly before relying on them.
+Implement records task changes and observed checks. Test creates a new verification report for each session, mapping criteria to actual assertions or manual observations. Reports are agent-authored evidence, not trusted receipts; JSON test nodes in both versions remain specifications. The CLI has no automatic task-completion or evidence-freshness state. `context` exports planning artifacts only, so read implementation/verification reports explicitly before relying on them.
 
 Review creates a new report with a named scope, supported findings and a separate coverage status. `changes-requested` means an unresolved supported defect; `no-findings` is limited to the fully inspected scope; `incomplete` means critical gaps prevent a complete conclusion. None is a GitHub approval or permission to merge. Review reports also remain outside the current context export and must be read explicitly.
 
@@ -52,6 +52,8 @@ node bin/tracecraft.mjs check /path/to/feature.json --stage plan
 ```
 
 `specify` requires testable requirements; `architect` adds decision coverage; `plan` adds task and test-specification coverage. All present records must still have valid shape/references and no dependency cycles. Omitting the flag preserves the original full `plan` check. Impact still requires a complete contract.
+
+New features use v2: stable AC IDs, requirement sources, explicit assumptions and test `criterionIds`. The v2 plan check verifies every criterion is mapped; existing v1 files retain their earlier behavior. See [schema v2 and migration](SCHEMA.md). Use `npm ci --ignore-scripts` once when setting up the checkout.
 
 These checks validate structure only. The assistant must also assess open questions, design rationale and acceptance-to-test coverage. The checker neither inspects Markdown readiness labels nor verifies actual test execution. A structurally valid contract can still be blocked by an unresolved product decision.
 

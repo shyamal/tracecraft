@@ -1,6 +1,8 @@
 # Security and trust boundaries
 
-The prototype only reads a supplied JSON contract and creates explicitly requested draft files. It does not run test commands, load plugins, contact models or execute strings from contracts. Passing validation is not a security review or proof that software works.
+The CLI reads selected planning artifacts and creates explicitly requested draft or migration files; doctor runs bounded read-only Git probes. It does not run application test commands, load plugins, contact models or execute strings from contracts. Workflow skills use the host's permissions for authorized coding/testing. Passing validation is not a security review or proof that software works.
+
+Install dependencies from the lockfile with `npm ci --ignore-scripts`. Bundled JSON Schemas are compiled locally; requirement source references and schema identifiers do not trigger remote fetches. V2 rejects unknown properties, while v1 preserves its earlier extension tolerance. Migration refuses unsupported fields rather than silently dropping them.
 
 Use trusted local file paths. The prototype is not designed as a service accepting untrusted uploads or as a filesystem sandbox. Do not run it with elevated privileges. Large-file resource limits and stronger filesystem confinement are future work before any hosted use.
 
