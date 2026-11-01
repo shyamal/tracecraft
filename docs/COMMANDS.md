@@ -8,10 +8,13 @@
 | `tracecraft check <file> [--stage specify\|architect\|plan]` | Feature JSON; default stage is plan | Read-only `{ok, scope, stage, diagnostics}` | Invalid contract: exit 1; parse/I/O/usage: exit 2 |
 | `tracecraft impact <file> <node-id>` | Structurally valid feature; existing node ID | Read-only `{changed, affected}` with sorted transitive IDs | Invalid contract: exit 1; unknown ID: exit 2 |
 | `tracecraft context <file> --stage <stage> [--max-bytes <limit>]` | Feature JSON; explicit supported stage | Bounded JSON packet with selected feature data, companion text, hashes and omissions | Invalid contract: exit 1; usage/I/O/required-size: exit 2 |
+| `tracecraft doctor [--project <directory>]` | Current directory or explicit project | Read-only local setup checks and remedies | Failed checks: exit 1; usage/unexpected errors: exit 2 |
 
 Run through `node bin/tracecraft.mjs` from this source tree. These commands neither invoke AI nor run product tests. `check` passing means structural coverage, not implementation completion. Errors contain a machine-readable code and an actionable message.
 
 Context stages: specify, architect, plan, implement, test, review. The [context guide](CONTEXT.md) defines selections, prerequisite checks and byte limits. Optional document omissions are warnings in a successful packet; required contract failures stop export.
+
+The [doctor guide](DOCTOR.md) explains runtime/resource checks, optional Git warnings and the boundary between local setup and unverified host integration. It does not load project configuration or execute configured commands.
 
 ## Assistant skills
 
@@ -37,7 +40,6 @@ Shared behavior: read existing artifacts first; cite repository evidence; preser
 - `tracecraft verify <feature> --command-id <id>`: resolve a configured argv command, run it within permitted scope, persist a receipt even on failure. This command does not make project code trustworthy.
 - `tracecraft status <feature>`: derive structural, execution and review readiness separately with stale reasons.
 - `tracecraft check <feature> --gate <stage> --json`: schema, graph and selected stage policy. Planned gate flags are not accepted by the prototype.
-- `tracecraft doctor`: host/runtime/configuration diagnostics; no automatic installation or upgrade.
 
 ## Skill evaluation contract
 

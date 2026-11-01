@@ -12,6 +12,7 @@ This is a working **0.1.0 prototype**, not the complete MVP. It contains three p
 - [Command and skill specifications](docs/COMMANDS.md)
 - [Use the first three skills](docs/SKILLS.md)
 - [Export context for your assistant](docs/CONTEXT.md)
+- [Check your local setup](docs/DOCTOR.md)
 - [Phased MVP and repository implementation backlog](docs/ROADMAP.md)
 - [Research sources and inspection limits](docs/SOURCES.md)
 
@@ -21,6 +22,7 @@ Use Node.js 24 or 26. No package installation, API key, or model call is require
 
 ```sh
 node --test
+node bin/tracecraft.mjs doctor
 node bin/tracecraft.mjs check examples/invite-member.json
 node bin/tracecraft.mjs impact examples/invite-member.json REQ-001
 node bin/tracecraft.mjs context examples/invite-member.json --stage implement
@@ -41,7 +43,7 @@ The toolkit targets any application language. Its own CLI uses JavaScript ES mod
 
 ## Status and scope
 
-Implemented: specify/architect/plan skills with templates, stage-specific structural checks, bounded context export with source hashes and omission reporting, contract creation, reference validation, requirement-to-design/task/test coverage, transitive change impact, and automated CLI/core tests.
+Implemented: specify/architect/plan skills with templates, read-only local setup diagnostics, stage-specific structural checks, bounded context export with source hashes and omission reporting, contract creation, reference validation, requirement-to-design/task/test coverage, transitive change impact, and automated CLI/core tests.
 
 Planned: implementation/testing/review skills, host installers, execution receipts, evidence freshness, review gates, task-specific context filtering, CI integration for consuming projects and a published package. The included CI workflow tests the toolkit itself.
 

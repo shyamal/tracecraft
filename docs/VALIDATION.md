@@ -34,3 +34,9 @@ These are structural and packaging checks, not evidence of native-host installat
 Locally executed with Node.js 26.5.0 on 1 November 2026: all 25 tests passed, zero failed/skipped. Nine context tests cover stage selection and prerequisites, repeated byte-identical JSON, raw-source hashes, explicit omissions, known-field projection, ignored document links, external-directory symlinks, UTF-8 budgets, source/packet overflow, invalid encoding/JSON, read-only behavior and CLI error cases. Existing 16 tests remain green.
 
 The feature's own artifacts under `.tracecraft/features/context-command/` passed specify, architect and plan checks sequentially as they were authored. This is a same-session pilot of the three skills, not independent evaluation. A context packet was then generated from those artifacts for an implementation-stage handoff. Only selected-source completeness is claimed; no native-host certification, model-quality benchmark or application-test evidence is implied.
+
+## Doctor command update
+
+Locally executed with Node.js 26.5.0 on 1 November 2026: all 33 tests passed, zero failed/skipped. Eight diagnostic tests cover a healthy setup, unsupported runtimes, absent/empty toolkit resources, invalid manifests, invalid project paths, simulated Git absence/timeouts/refusals, permitted Git probe arguments, artifact path conflicts, unread configuration content, read-only behavior, paths with spaces and CLI option errors. Existing context, contract and stage tests remain green.
+
+The CLI smoke test exercises real local Git and checks both the default working directory and an explicit project path. Failure-path unit tests inject Git probe outcomes; they do not certify host-specific timeout behavior. The setup report checks only local prerequisites and makes no claim about native host authentication, model access or application correctness.

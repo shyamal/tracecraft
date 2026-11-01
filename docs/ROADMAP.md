@@ -12,9 +12,7 @@ Estimates assume one developer familiar with JavaScript and AI coding tools, wor
 
 Public MVP = phases 1–3. Do not position phase 0 as an autonomous engineering agent.
 
-Progress update: the first three planning skills and their templates now exist, together with `check --stage specify|architect|plan`. Phase 1 remains incomplete: context/doctor commands, richer schema and real-project pilots are outstanding. See [skill usage](SKILLS.md).
-
-Context update: `context <file> --stage <stage> [--max-bytes <limit>]` now exports stage-selected planning artifacts with provenance and explicit omissions. The command was specified/planned using the three skills in this repository. `doctor`, richer schema and independent real-project pilots remain outstanding; this single-session exercise is not host certification.
+Current progress: the first three planning skills and templates, `check --stage specify|architect|plan`, bounded `context` exports and read-only `doctor` diagnostics are implemented. Context was specified/planned using the three skills in the same session; this is not independent host certification. Phase 1 remains incomplete: richer schema, implementation/testing skills and independent real-project pilots are outstanding. Doctor checks local prerequisites and explicitly leaves native-host and configuration integration unverified. See [skill usage](SKILLS.md), [context export](CONTEXT.md) and [setup diagnostics](DOCTOR.md).
 
 ## Current repository
 
