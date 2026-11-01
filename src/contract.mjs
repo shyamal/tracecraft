@@ -4,6 +4,8 @@ const object = value => value !== null && typeof value === 'object' && !Array.is
 const strings = value => Array.isArray(value) && value.every(text);
 const idPattern = /^(REQ|ADR|TASK|TEST)-[0-9]{3,}$/;
 const prefixes = { requirements: 'REQ-', decisions: 'ADR-', tasks: 'TASK-', tests: 'TEST-' };
+export const stages = ['specify', 'architect', 'plan'];
+const coverageGroups = { specify: [], architect: ['decisions'], plan: groups.slice(1) };
 
 export function draft(id) {
   if (!/^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$/.test(id ?? '')) {
@@ -14,7 +16,8 @@ export function draft(id) {
 }
 
 /** Structural validation only. No application tests or filesystem reads occur here. */
-export function validate(contract) {
+export function validate(contract, { stage = 'plan' } = {}) {
+  if (!stages.includes(stage)) throw new Error(`Unknown stage ${stage}; use specify, architect or plan.`);
   const diagnostics = [];
   const add = (code, message) => diagnostics.push({ code, message });
   if (!object(contract)) return [{ code: 'SHAPE', message: 'Contract must be a JSON object.' }];
@@ -58,7 +61,7 @@ export function validate(contract) {
         if (!nodes.has(id)) add('REFERENCE', `${node.id} depends on unknown node ${id}.`);
       }
     }
-    for (const id of requirements) {
+    for (const id of coverageGroups[stage].includes(group) ? requirements : []) {
       if (!contract[group].some(node => node.requirementIds.includes(id))) add('COVERAGE', `${id} has no ${group} mapping.`);
     }
   }

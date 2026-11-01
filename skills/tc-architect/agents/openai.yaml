@@ -1,0 +1,4 @@
+interface:
+  display_name: "Tracecraft Architect"
+  short_description: "Link requirements to technical design decisions"
+  default_prompt: "Use $tc-architect to design the technical approach for this feature contract."
