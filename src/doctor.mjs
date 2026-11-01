@@ -16,6 +16,7 @@ export const requiredResources = [
   'skills/tc-plan/SKILL.md', 'skills/tc-plan/assets/plan.md',
   'skills/tc-implement/SKILL.md', 'skills/tc-implement/assets/implementation.md',
   'skills/tc-test/SKILL.md', 'skills/tc-test/assets/verification.md',
+  'skills/tc-review/SKILL.md', 'skills/tc-review/references/review.md', 'skills/tc-review/assets/review.md',
 ];
 
 async function runGit(args, cwd) {
@@ -54,7 +55,7 @@ export async function doctor({ project = process.cwd(), toolkitRoot = ownRoot,
     } catch { missing.push(resource); }
   }
   if (missing.length) add('toolkit.resources', 'fail', `Missing, empty or unreadable resources: ${missing.join(', ')}`, 'Restore the complete toolkit, including the shared skills/references folder and templates.');
-  else add('toolkit.resources', 'pass', 'CLI modules, five workflow skills and their templates are present and readable.');
+  else add('toolkit.resources', 'pass', 'CLI modules, six workflow skills and their templates are present and readable.');
 
   let projectAvailable = false;
   try {

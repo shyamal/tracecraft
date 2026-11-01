@@ -1,0 +1,4 @@
+interface:
+  display_name: "Tracecraft Review"
+  short_description: "Review changes against requirements and evidence"
+  default_prompt: "Use $tc-review to review this feature change and report supported findings without repairing the code."
