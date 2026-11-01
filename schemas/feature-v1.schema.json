@@ -1,0 +1,177 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:tracecraft:feature:v1",
+  "title": "Tracecraft feature v1 (shape only; use CLI for graph and coverage checks)",
+  "type": "object",
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$"
+    },
+    "title": {
+      "type": "string",
+      "pattern": "\\S"
+    },
+    "requirements": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^REQ-[0-9]{3,}$"
+          },
+          "statement": {
+            "type": "string",
+            "pattern": "\\S"
+          },
+          "acceptance": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "\\S"
+            },
+            "minItems": 1
+          }
+        },
+        "required": [
+          "id",
+          "statement",
+          "acceptance"
+        ],
+        "additionalProperties": true
+      },
+      "minItems": 0
+    },
+    "decisions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^ADR-[0-9]{3,}$"
+          },
+          "summary": {
+            "type": "string",
+            "pattern": "\\S"
+          },
+          "requirementIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "\\S"
+            },
+            "minItems": 1
+          },
+          "dependsOn": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "\\S"
+            },
+            "minItems": 0
+          }
+        },
+        "required": [
+          "id",
+          "summary",
+          "requirementIds"
+        ],
+        "additionalProperties": true
+      },
+      "minItems": 0
+    },
+    "tasks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^TASK-[0-9]{3,}$"
+          },
+          "summary": {
+            "type": "string",
+            "pattern": "\\S"
+          },
+          "requirementIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "\\S"
+            },
+            "minItems": 1
+          },
+          "dependsOn": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "\\S"
+            },
+            "minItems": 0
+          }
+        },
+        "required": [
+          "id",
+          "summary",
+          "requirementIds"
+        ],
+        "additionalProperties": true
+      },
+      "minItems": 0
+    },
+    "tests": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^TEST-[0-9]{3,}$"
+          },
+          "summary": {
+            "type": "string",
+            "pattern": "\\S"
+          },
+          "requirementIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "\\S"
+            },
+            "minItems": 1
+          },
+          "dependsOn": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "\\S"
+            },
+            "minItems": 0
+          }
+        },
+        "required": [
+          "id",
+          "summary",
+          "requirementIds"
+        ],
+        "additionalProperties": true
+      },
+      "minItems": 0
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "id",
+    "title",
+    "requirements",
+    "decisions",
+    "tasks",
+    "tests"
+  ],
+  "additionalProperties": true
+}

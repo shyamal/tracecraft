@@ -5,7 +5,7 @@ description: Review a Tracecraft feature change against its requirements, archit
 
 # Review the selected change
 
-Read [contract v1](../references/contract.md) and the evidence vocabulary and report limitations in [execution guidance](../references/execution.md). Use [review guidance](references/review.md) for scope, finding standards and outcomes, and [the report template](assets/review.md) for the saved result.
+Read [feature contracts](../references/contract.md) and the evidence vocabulary and report limitations in [execution guidance](../references/execution.md). Use [review guidance](references/review.md) for scope, finding standards and outcomes, and [the report template](assets/review.md) for the saved result.
 
 1. Establish the selected feature and review target: explicit base/head, PR diff, working-tree changes or named files. Record resolved revisions and relevant dirty/untracked inputs. Use the user's selected comparison. If none was given, inspect branch/upstream information and state a defensible comparison; ask if alternatives would materially change the review. Do not assume main is the correct base, change branches or reset files. A file-only review can proceed with a declared current-state scope and no change-regression claims.
 2. Read the contract, brief, active decisions, plan, implementation notes and relevant verification reports. `context --stage review` supplies planning context only; load execution reports explicitly. Run the plan-stage structural check when available, but distinguish graph errors or missing artifacts from proven product bugs. Missing optional material narrows coverage; a missing critical baseline or requirement makes the dependent conclusion incomplete.

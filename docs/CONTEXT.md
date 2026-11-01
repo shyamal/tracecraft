@@ -21,6 +21,8 @@ The prerequisite is the input needed **before** the requested stage. For example
 
 The command requires a valid feature contract with at least one requirement. It does not bootstrap an empty specification; use `tc-specify` first. Files are resolved beside the selected contract, following the layout created by the three planning skills. ADR filenames come only from validated active decision IDs. Extra contract properties are excluded from the projection. Paths and source digests describe the actual loaded files; external links embedded in Markdown are not followed.
 
+Both v1 and v2 contracts are supported. V2 packets also retain requirement sources, assumptions, stable criterion objects and selected test criterion mappings. Source references are not fetched. V2 rejects unknown properties before export; the v1 projection continues excluding unrecognized extension properties.
+
 ## Output and limits
 
 Default maximum output: 65,536 UTF-8 bytes, including JSON formatting and the trailing newline. Set a different limit:

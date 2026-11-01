@@ -5,7 +5,7 @@ description: Implement a selected Tracecraft task from its requirements and arch
 
 # Implement a planned task
 
-Read [contract v1](../references/contract.md) and [execution/evidence guidance](../references/execution.md). Use the [implementation note template](assets/implementation.md) for the selected task.
+Read [feature contracts](../references/contract.md) and [execution/evidence guidance](../references/execution.md). Use the [implementation note template](assets/implementation.md) for the selected task.
 
 1. Identify the requested task and its requirements, acceptance criteria, active decisions and prerequisites. If no task was named, choose the first unblocked task only when that choice follows the user's requested scope; otherwise clarify the target. Read current code/tests and working-tree changes. Passing `check --stage plan` is structural evidence, not authorization or proof that prerequisite code exists.
 2. State a short implementation approach consistent with the plan. If evidence shows the design or requirement needs a material change, explain the conflict and route that choice back to specification/architecture. Do not silently change expected behavior to fit convenient code. Continue independent portions that do not depend on the unresolved choice.

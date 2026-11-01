@@ -31,7 +31,7 @@ test('malformed nested inputs yield diagnostics, not exceptions', () => {
   assert.ok(codes(c).includes('SHAPE'));
 });
 test('unsupported versions and duplicate IDs fail', () => {
-  assert.ok(codes({ ...fixture(), schemaVersion: 2 }).includes('VERSION'));
+  assert.ok(codes({ ...fixture(), schemaVersion: 3 }).includes('VERSION'));
   const c = fixture(); c.tasks.push(structuredClone(c.tasks[0]));
   assert.ok(codes(c).includes('DUPLICATE'));
 });

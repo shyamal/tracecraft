@@ -1,0 +1,259 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:tracecraft:feature:v2",
+  "title": "Tracecraft feature v2 (shape only; use CLI for graph and coverage checks)",
+  "type": "object",
+  "properties": {
+    "schemaVersion": {
+      "const": 2
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$"
+    },
+    "title": {
+      "type": "string",
+      "pattern": "\\S"
+    },
+    "requirements": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^REQ-[0-9]{3,}$"
+          },
+          "statement": {
+            "type": "string",
+            "pattern": "\\S"
+          },
+          "acceptance": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "pattern": "^AC-[0-9]{3,}$"
+                },
+                "statement": {
+                  "type": "string",
+                  "pattern": "\\S"
+                }
+              },
+              "required": [
+                "id",
+                "statement"
+              ],
+              "additionalProperties": false
+            },
+            "minItems": 1
+          },
+          "sources": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "enum": [
+                    "user",
+                    "repository",
+                    "issue",
+                    "assumption",
+                    "legacy"
+                  ]
+                },
+                "reference": {
+                  "type": "string",
+                  "pattern": "\\S"
+                }
+              },
+              "required": [
+                "kind",
+                "reference"
+              ],
+              "additionalProperties": false
+            },
+            "minItems": 1
+          }
+        },
+        "required": [
+          "id",
+          "statement",
+          "acceptance",
+          "sources"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 0
+    },
+    "decisions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^ADR-[0-9]{3,}$"
+          },
+          "summary": {
+            "type": "string",
+            "pattern": "\\S"
+          },
+          "requirementIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "\\S"
+            },
+            "minItems": 1
+          },
+          "dependsOn": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "\\S"
+            },
+            "minItems": 0
+          }
+        },
+        "required": [
+          "id",
+          "summary",
+          "requirementIds"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 0
+    },
+    "tasks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^TASK-[0-9]{3,}$"
+          },
+          "summary": {
+            "type": "string",
+            "pattern": "\\S"
+          },
+          "requirementIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "\\S"
+            },
+            "minItems": 1
+          },
+          "dependsOn": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "\\S"
+            },
+            "minItems": 0
+          }
+        },
+        "required": [
+          "id",
+          "summary",
+          "requirementIds"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 0
+    },
+    "tests": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^TEST-[0-9]{3,}$"
+          },
+          "summary": {
+            "type": "string",
+            "pattern": "\\S"
+          },
+          "requirementIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "\\S"
+            },
+            "minItems": 1
+          },
+          "dependsOn": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "\\S"
+            },
+            "minItems": 0
+          },
+          "criterionIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^AC-[0-9]{3,}$"
+            },
+            "minItems": 0
+          }
+        },
+        "required": [
+          "id",
+          "summary",
+          "requirementIds",
+          "criterionIds"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 0
+    },
+    "assumptions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^ASM-[0-9]{3,}$"
+          },
+          "statement": {
+            "type": "string",
+            "pattern": "\\S"
+          },
+          "status": {
+            "enum": [
+              "open",
+              "confirmed",
+              "rejected"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "statement",
+          "status"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 0
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "id",
+    "title",
+    "requirements",
+    "decisions",
+    "tasks",
+    "tests",
+    "assumptions"
+  ],
+  "additionalProperties": false
+}

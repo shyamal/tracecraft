@@ -59,3 +59,11 @@ Local validation on 1 November 2026 with Node.js 26.5.0: all 35 toolkit tests pa
 A same-session synthetic review compared an exclusive expiry baseline with a changed inclusive comparator. The existing two-test suite passed; a direct equality assertion passed on the baseline and failed on the changed source. The saved pilot report records a P2 finding, criterion links, input hashes and repair direction. Source/test hashes were identical before and after the review. See evals/review-skill-pilot.md. This deliberately seeded author smoke test is not independent-agent evaluation or evidence of general defect-detection quality.
 
 tc-review is now implemented as an instruction workflow. Automated review gates, trusted input binding and evidence freshness remain unimplemented.
+
+## Versioned feature schemas and migration
+
+Local validation on 1 November 2026 with Node.js 26.5.0: all 46 tests passed, zero failed/skipped. Eleven new tests cover both schema versions, required fields and types, non-mutating validation, duplicate criteria/assumptions, reference ownership, criterion coverage, conservative AC/ASM impact, input-preserving migration, extension-field refusal, v2 context projection and exclusive migration output creation. The unsupported-version regression now uses version 3 because version 2 is supported.
+
+Both example contracts passed the plan check. All six skills passed skill-creator validation and local Markdown links resolved. A source-checkout `npm ci --ignore-scripts` succeeded from the cached lockfile. An actual locally built package was extracted and its exact validator dependency installed from cache; both example checks and packaged doctor passed. No package was published. CI now installs locked dependencies before testing; cross-platform CI execution for this change has not yet been observed.
+
+Migration success describes a converted draft, not test coverage: the resulting empty criterion mappings deliberately fail the plan check until reviewed. Source truth, assumption acceptance and actual test execution remain outside structural validation.

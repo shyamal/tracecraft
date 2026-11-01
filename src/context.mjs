@@ -38,10 +38,13 @@ async function readBounded(path, limit) {
 
 function project(contract, selected) {
   const feature = { schemaVersion: contract.schemaVersion, id: contract.id, title: contract.title };
+  if (contract.schemaVersion === 2) feature.assumptions = contract.assumptions;
   for (const group of selected) {
     feature[group] = contract[group].map(node => group === 'requirements'
-      ? { id: node.id, statement: node.statement, acceptance: node.acceptance }
+      ? { id: node.id, statement: node.statement, acceptance: node.acceptance,
+        ...(contract.schemaVersion === 2 ? { sources: node.sources } : {}) }
       : { id: node.id, summary: node.summary, requirementIds: node.requirementIds,
+        ...(group === 'tests' && contract.schemaVersion === 2 ? { criterionIds: node.criterionIds } : {}),
         ...(node.dependsOn === undefined ? {} : { dependsOn: node.dependsOn }) });
   }
   return feature;
