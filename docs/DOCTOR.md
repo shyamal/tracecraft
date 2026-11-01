@@ -22,7 +22,7 @@ Output is JSON containing `ok`, `scope`, `project`, `toolkitVersion`, `checks` a
 |---|---|
 | `runtime` | Current Node.js meets the package's >=24 engine minimum. This is not a live check of Node release support or patch currency. |
 | `toolkit.manifest` | The package metadata identifies Tracecraft and has a version. |
-| `toolkit.resources` | CLI modules, three planning skills, shared contract guidance and templates are readable nonempty files. This does not verify their semantic correctness or integrity. |
+| `toolkit.resources` | CLI modules, five workflow skills, shared contract/execution guidance and templates are readable nonempty files. This does not verify their semantic correctness or integrity. |
 | `project.directory` | The selected path is an accessible directory. |
 | `git.available` | Git responds locally. Missing/unresponsive Git is a warning: contract commands can still run. |
 | `project.git` | Git reports a working tree. A non-repository, bare repository or Git access refusal is a warning; Doctor does not change Git safety settings. |

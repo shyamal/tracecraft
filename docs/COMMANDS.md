@@ -18,7 +18,7 @@ The [doctor guide](DOCTOR.md) explains runtime/resource checks, optional Git war
 
 ## Assistant skills
 
-The first three skills are implemented under `skills/`: `tc-specify`, `tc-architect` and `tc-plan`. See [usage](SKILLS.md) for explicit file-based invocation and stage checks. The remaining skills below are planned. Native command discovery depends on host registration; host adapters are not installed by this prototype.
+Five skills are implemented under `skills/`: `tc-specify`, `tc-architect`, `tc-plan`, `tc-implement` and `tc-test`. See [usage](SKILLS.md) for explicit file-based invocation and stage checks. `tc-review` and `tc-impact` skill files remain planned (the impact CLI already exists). Native command discovery depends on host registration; host adapters are not installed by this prototype.
 
 | Skill | Trigger / inputs | Procedure | Artifacts and exit condition | Allowed effects |
 |---|---|---|---|---|
@@ -26,7 +26,7 @@ The first three skills are implemented under `skills/`: `tc-specify`, `tc-archit
 | `tc-architect` | Feature contract + relevant code | Compare at least two viable approaches or explain why existing design is sufficient; model data flow, interfaces, failure behavior and security boundaries; record consequences | Architecture note + ADRs linked to requirements; critical questions resolved or marked blocked | Design documents only |
 | `tc-plan` | Contract + architecture | Split into reviewable vertical tasks; order dependencies; identify files/interfaces and verification per task; avoid speculative infrastructure | Task graph; every requirement has implementation and test obligations; no cycles | Planning artifacts only |
 | `tc-implement` | Selected ready task + linked criteria/decisions | Inspect callers/tests, make scoped changes, add behavior-focused tests, run affected checks when permitted, report deviations | Code/tests + task notes; changed behavior and remaining gaps explicit | Selected application code/tests; no automatic publish |
-| `tc-test` | Changed code + criteria + selected test commands | Build criterion-to-test matrix; cover failures and boundaries; run checks; distinguish failed, blocked and not-run; record reproducible commands/results | Verification records; no pass without observed successful execution | Tests and local evidence; application repairs return to implement |
+| `tc-test` | Changed code + criteria + selected test commands | Build criterion-to-test matrix; run justified checks; distinguish passed, failed, blocked, not-run and inconclusive | Agent-authored observational reports; no trusted runner receipts yet | Tests and local evidence; application repairs return to implement |
 | `tc-review` | Diff/base/head + contract + receipts | Read changed behavior in context; inspect correctness, security, regressions, missing requirements and weakened checks; verify each finding | Review report with file/location, reproduction, impact, severity, confidence, requirement IDs and disposition | Report artifacts; read-only for application code |
 | `tc-impact` | Proposed requirement or decision change | Run deterministic graph walk, inspect affected code and interfaces, identify unlinked risks, propose updates | Impact report with affected IDs and stale evidence; label graph gaps | Report only; user/implementer decides edits |
 

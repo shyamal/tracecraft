@@ -1,0 +1,4 @@
+interface:
+  display_name: "Tracecraft Implement"
+  short_description: "Implement scoped tasks with regression checks"
+  default_prompt: "Use $tc-implement to implement the selected task from this feature contract."

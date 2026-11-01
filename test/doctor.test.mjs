@@ -47,6 +47,19 @@ test('unsupported runtime fails with a remedy', async t => {
   }
 });
 
+test('execution skills require their evidence guidance and report templates', async t => {
+  const options = await setup(t);
+  for (const resource of ['skills/references/execution.md', 'skills/tc-implement/assets/implementation.md', 'skills/tc-test/assets/verification.md']) {
+    const path = join(options.toolkitRoot, resource);
+    const content = await readFile(path);
+    await rm(path);
+    const result = await doctor(options);
+    assert.equal(result.ok, false);
+    assert.ok(check(result, 'toolkit.resources').message.includes(resource));
+    await writeFile(path, content);
+  }
+});
+
 test('missing and empty resources and invalid manifests are actionable failures', async t => {
   const options = await setup(t);
   await rm(join(options.toolkitRoot, 'skills/references/contract.md'));
