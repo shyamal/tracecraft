@@ -4,13 +4,13 @@
 
 Tracecraft is a proposed open-source workflow toolkit for developers using AI coding assistants. It keeps requirements, architecture decisions, implementation tasks, and test plans connected in a repository. The name is provisional; package and trademark availability have not been checked.
 
-This is a working **0.1.0 prototype**, not the complete MVP. It contains three planning skills, reusable templates, a dependency-free local CLI, an example feature contract, tests, and an implementable product and repository plan. No gstack source or prompts were copied.
+This is a working **0.1.0 prototype**, not the complete MVP. It contains five workflow skills, reusable templates, a dependency-free local CLI, an example feature contract, tests, and an implementable product and repository plan. No gstack source or prompts were copied.
 
 ## Start here
 
 - [Product concept, gstack comparison, architecture and decisions](docs/DESIGN.md)
 - [Command and skill specifications](docs/COMMANDS.md)
-- [Use the first three skills](docs/SKILLS.md)
+- [Use the workflow skills](docs/SKILLS.md)
 - [Export context for your assistant](docs/CONTEXT.md)
 - [Check your local setup](docs/DOCTOR.md)
 - [Phased MVP and repository implementation backlog](docs/ROADMAP.md)
@@ -39,12 +39,14 @@ The example contains only the JSON contract, so its context export reports missi
 
 Ask your assistant to read `skills/tc-specify/SKILL.md` and specify your feature in your application repository. Continue with `skills/tc-architect/SKILL.md`, then `skills/tc-plan/SKILL.md`. The skills create linked requirements, design decisions, implementation tasks and planned tests. See [usage and stage checks](docs/SKILLS.md). The assistant performs the reasoning and edits; the CLI checks the resulting graph. Dedicated host installation and slash commands are **planned**, not installed or certified by this prototype.
 
+When ready to code, use `skills/tc-implement/SKILL.md` for a selected task, then `skills/tc-test/SKILL.md` to verify its acceptance criteria. These skills use your assistant's existing coding and command tools. Their reports distinguish observed results from planned tests; the CLI does not yet provide a trusted execution runner.
+
 The toolkit targets any application language. Its own CLI uses JavaScript ES modules and Node's built-in test runner. The first public MVP should add JSON Schema validation, revision-bound verification records and tested host adapters.
 
 ## Status and scope
 
-Implemented: specify/architect/plan skills with templates, read-only local setup diagnostics, stage-specific structural checks, bounded context export with source hashes and omission reporting, contract creation, reference validation, requirement-to-design/task/test coverage, transitive change impact, and automated CLI/core tests.
+Implemented: specify/architect/plan/implement/test skills with templates, read-only local setup diagnostics, stage-specific structural checks, bounded context export with source hashes and omission reporting, contract creation, reference validation, requirement-to-design/task/test coverage, transitive change impact, and automated CLI/core tests.
 
-Planned: implementation/testing/review skills, host installers, execution receipts, evidence freshness, review gates, task-specific context filtering, CI integration for consuming projects and a published package. The included CI workflow tests the toolkit itself.
+Planned: review skill, host installers, trusted execution receipts, evidence freshness, review gates, task-specific context filtering, CI integration for consuming projects and a published package. The included CI workflow tests the toolkit itself.
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) and [SECURITY.md](SECURITY.md). MIT licensed. Inspired by gstack's workflow approach; independently designed and not affiliated with gstack.

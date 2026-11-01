@@ -9,11 +9,13 @@ const exec = promisify(execFile);
 const ownRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 export const requiredResources = [
   'bin/tracecraft.mjs', 'src/contract.mjs', 'src/context.mjs', 'src/doctor.mjs',
-  'skills/references/contract.md',
+  'skills/references/contract.md', 'skills/references/execution.md',
   'skills/tc-specify/SKILL.md', 'skills/tc-specify/assets/brief.md',
   'skills/tc-architect/SKILL.md', 'skills/tc-architect/assets/architecture.md',
   'skills/tc-architect/assets/decision.md',
   'skills/tc-plan/SKILL.md', 'skills/tc-plan/assets/plan.md',
+  'skills/tc-implement/SKILL.md', 'skills/tc-implement/assets/implementation.md',
+  'skills/tc-test/SKILL.md', 'skills/tc-test/assets/verification.md',
 ];
 
 async function runGit(args, cwd) {
@@ -52,7 +54,7 @@ export async function doctor({ project = process.cwd(), toolkitRoot = ownRoot,
     } catch { missing.push(resource); }
   }
   if (missing.length) add('toolkit.resources', 'fail', `Missing, empty or unreadable resources: ${missing.join(', ')}`, 'Restore the complete toolkit, including the shared skills/references folder and templates.');
-  else add('toolkit.resources', 'pass', 'CLI modules, three planning skills and their templates are present and readable.');
+  else add('toolkit.resources', 'pass', 'CLI modules, five workflow skills and their templates are present and readable.');
 
   let projectAvailable = false;
   try {

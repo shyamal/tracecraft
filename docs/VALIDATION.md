@@ -40,3 +40,14 @@ The feature's own artifacts under `.tracecraft/features/context-command/` passed
 Locally executed with Node.js 26.5.0 on 1 November 2026: all 33 tests passed, zero failed/skipped. Eight diagnostic tests cover a healthy setup, unsupported runtimes, absent/empty toolkit resources, invalid manifests, invalid project paths, simulated Git absence/timeouts/refusals, permitted Git probe arguments, artifact path conflicts, unread configuration content, read-only behavior, paths with spaces and CLI option errors. Existing context, contract and stage tests remain green.
 
 The CLI smoke test exercises real local Git and checks both the default working directory and an explicit project path. Failure-path unit tests inject Git probe outcomes; they do not certify host-specific timeout behavior. The setup report checks only local prerequisites and makes no claim about native host authentication, model access or application correctness.
+
+## Implementation and testing skills update
+
+Local validation on 1 November 2026 with Node.js 26.5.0:
+
+- All 34 toolkit tests passed, zero failed/skipped. Doctor now checks all five skills and their guidance/templates; a regression test confirms missing execution guidance and report templates fail setup diagnostics.
+- Skill-creator validation passed for all five SKILL.md files; UI metadata was generated for tc-implement and tc-test. Local Markdown references resolved.
+- An actual npm archive was built locally and extracted into a scratch directory. The packaged doctor passed its resource check, confirming the shared guidance and new templates are included. No package was published.
+- A synthetic expiry-boundary pilot observed an initial equality-test failure, a minimal comparator repair, and three passing tests in both the implementation and separate verification passes. See evals/execution-skills-pilot.md for scope and input hashes. This same-session author smoke test is not independent agent evaluation or host certification.
+
+The two skills produce agent-authored observational reports. Trusted execution receipts, automatic evidence freshness and a review skill remain future work.

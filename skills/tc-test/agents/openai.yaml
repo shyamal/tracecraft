@@ -1,0 +1,4 @@
+interface:
+  display_name: "Tracecraft Test"
+  short_description: "Verify acceptance criteria with observed evidence"
+  default_prompt: "Use $tc-test to verify this implemented feature and report observed results and coverage gaps."
