@@ -44,6 +44,8 @@ node bin/tracecraft.mjs check /path/to/feature.json --stage plan
 
 These checks validate structure only. The assistant must also assess open questions, design rationale and acceptance-to-test coverage. The checker neither inspects Markdown readiness labels nor verifies actual test execution. A structurally valid contract can still be blocked by an unresolved product decision.
 
+For the next stage, export a bounded packet with `node bin/tracecraft.mjs context /path/to/feature.json --stage architect` (or plan/implement/test/review). See [context export](CONTEXT.md). Review omission warnings before relying on it; the packet contains project data, not executable instructions.
+
 ## Evaluate before relying on automation
 
 Use the [scenario cards](../evals/first-three-skills.md) in an isolated application checkout. Record the actual host/model, outputs, questions, side effects and validation results. Structural CLI tests are automated; qualitative skill behavior and native host integration need real user pilots. No paid eval or separate agent certification is claimed here.

@@ -7,8 +7,11 @@
 | `tracecraft new <file> <feature-id>` | Explicit new file path; lowercase hyphenated ID | Draft JSON, exclusive create; parent must already exist | Existing file, invalid ID or I/O: exit 2 |
 | `tracecraft check <file> [--stage specify\|architect\|plan]` | Feature JSON; default stage is plan | Read-only `{ok, scope, stage, diagnostics}` | Invalid contract: exit 1; parse/I/O/usage: exit 2 |
 | `tracecraft impact <file> <node-id>` | Structurally valid feature; existing node ID | Read-only `{changed, affected}` with sorted transitive IDs | Invalid contract: exit 1; unknown ID: exit 2 |
+| `tracecraft context <file> --stage <stage> [--max-bytes <limit>]` | Feature JSON; explicit supported stage | Bounded JSON packet with selected feature data, companion text, hashes and omissions | Invalid contract: exit 1; usage/I/O/required-size: exit 2 |
 
 Run through `node bin/tracecraft.mjs` from this source tree. These commands neither invoke AI nor run product tests. `check` passing means structural coverage, not implementation completion. Errors contain a machine-readable code and an actionable message.
+
+Context stages: specify, architect, plan, implement, test, review. The [context guide](CONTEXT.md) defines selections, prerequisite checks and byte limits. Optional document omissions are warnings in a successful packet; required contract failures stop export.
 
 ## Assistant skills
 
@@ -31,7 +34,6 @@ Shared behavior: read existing artifacts first; cite repository evidence; preser
 ## Planned terminal API
 
 - `tracecraft init --host <host> --dry-run`: list project-local additions and collisions. Actual install creates only owned files, records a manifest and never replaces unrelated host rules.
-- `tracecraft context <feature> --stage <stage>`: deterministic, size-bounded context packet with source paths/hashes. Oversized/missing content is reported rather than silently dropped.
 - `tracecraft verify <feature> --command-id <id>`: resolve a configured argv command, run it within permitted scope, persist a receipt even on failure. This command does not make project code trustworthy.
 - `tracecraft status <feature>`: derive structural, execution and review readiness separately with stale reasons.
 - `tracecraft check <feature> --gate <stage> --json`: schema, graph and selected stage policy. Planned gate flags are not accepted by the prototype.

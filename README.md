@@ -11,6 +11,7 @@ This is a working **0.1.0 prototype**, not the complete MVP. It contains three p
 - [Product concept, gstack comparison, architecture and decisions](docs/DESIGN.md)
 - [Command and skill specifications](docs/COMMANDS.md)
 - [Use the first three skills](docs/SKILLS.md)
+- [Export context for your assistant](docs/CONTEXT.md)
 - [Phased MVP and repository implementation backlog](docs/ROADMAP.md)
 - [Research sources and inspection limits](docs/SOURCES.md)
 
@@ -22,10 +23,13 @@ Use Node.js 24 or 26. No package installation, API key, or model call is require
 node --test
 node bin/tracecraft.mjs check examples/invite-member.json
 node bin/tracecraft.mjs impact examples/invite-member.json REQ-001
+node bin/tracecraft.mjs context examples/invite-member.json --stage implement
 node bin/tracecraft.mjs new feature.json invite-member
 ```
 
 The example passes structural validation. It is fictional: its test references do **not** prove that an application or passing tests exist. A newly created feature intentionally fails validation until real requirements, decisions, tasks and test cases have been supplied.
+
+The example contains only the JSON contract, so its context export reports missing companion documents. This is an intentional example of explicit omissions, not an executed-test report.
 
 `check` validates structure and relationships. `impact` lists transitive dependents of a changed requirement, decision, task or test. `new` creates a draft file without overwriting an existing one. All output is JSON. Exit codes: 0 = command succeeded, 1 = invalid contract, 2 = usage or I/O error.
 
@@ -37,8 +41,8 @@ The toolkit targets any application language. Its own CLI uses JavaScript ES mod
 
 ## Status and scope
 
-Implemented: specify/architect/plan skills with templates, stage-specific structural checks, contract creation, reference validation, requirement-to-design/task/test coverage, transitive change impact, and automated CLI/core tests.
+Implemented: specify/architect/plan skills with templates, stage-specific structural checks, bounded context export with source hashes and omission reporting, contract creation, reference validation, requirement-to-design/task/test coverage, transitive change impact, and automated CLI/core tests.
 
-Planned: implementation/testing/review skills, host installers, execution receipts, evidence freshness, review gates, context generation, CI integration for consuming projects and a published package. The included CI workflow tests the toolkit itself.
+Planned: implementation/testing/review skills, host installers, execution receipts, evidence freshness, review gates, task-specific context filtering, CI integration for consuming projects and a published package. The included CI workflow tests the toolkit itself.
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) and [SECURITY.md](SECURITY.md). MIT licensed. Inspired by gstack's workflow approach; independently designed and not affiliated with gstack.

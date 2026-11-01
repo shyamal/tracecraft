@@ -1,0 +1,116 @@
+{
+  "schemaVersion": 1,
+  "id": "context-command",
+  "title": "Stage-specific context export",
+  "requirements": [
+    {
+      "id": "REQ-001",
+      "statement": "Export a reproducible context packet for an explicit workflow stage.",
+      "acceptance": [
+        "The command requires a supported stage and selects the documented contract sections and companion documents.",
+        "Identical input bytes and options produce identical JSON output, without timestamps or model calls."
+      ]
+    },
+    {
+      "id": "REQ-002",
+      "statement": "Preserve provenance and disclose incomplete context.",
+      "acceptance": [
+        "Every included source has a relative path and SHA-256 digest of the source bytes.",
+        "Missing, unreadable or oversized companion documents are named with a reason; the packet never silently truncates them.",
+        "Excluded contract sections are listed, and test plans are not reported as executed results."
+      ]
+    },
+    {
+      "id": "REQ-003",
+      "statement": "Bound output and read only feature-local companion files.",
+      "acceptance": [
+        "The serialized UTF-8 packet, including its newline, respects the selected byte limit or fails without emitting a partial packet.",
+        "Companion document links and arbitrary contract fields cannot cause traversal into other project files; symlinks resolving outside the feature directory are rejected.",
+        "Contract input larger than 1 MiB and invalid contracts fail with actionable diagnostics."
+      ]
+    },
+    {
+      "id": "REQ-004",
+      "statement": "Keep context generation read-only and compatible with existing commands.",
+      "acceptance": [
+        "The command writes only JSON to stdout and preserves input files.",
+        "Existing new, check and impact commands retain their behavior.",
+        "Missing or duplicate options, unsupported stages and invalid byte limits return exit 2."
+      ]
+    }
+  ],
+  "decisions": [
+    {
+      "id": "ADR-001",
+      "summary": "Export bounded JSON using fixed stage selections, feature-local documents and raw-source hashes.",
+      "requirementIds": [
+        "REQ-001",
+        "REQ-002",
+        "REQ-003",
+        "REQ-004"
+      ]
+    }
+  ],
+  "tasks": [
+    {
+      "id": "TASK-001",
+      "summary": "Build stage selection, bounded local loading and deterministic packet export.",
+      "requirementIds": [
+        "REQ-001",
+        "REQ-002",
+        "REQ-003"
+      ],
+      "dependsOn": [
+        "ADR-001"
+      ]
+    },
+    {
+      "id": "TASK-002",
+      "summary": "Expose strict CLI options and document file-based usage.",
+      "requirementIds": [
+        "REQ-001",
+        "REQ-002",
+        "REQ-003",
+        "REQ-004"
+      ],
+      "dependsOn": [
+        "ADR-001",
+        "TASK-001"
+      ]
+    }
+  ],
+  "tests": [
+    {
+      "id": "TEST-001",
+      "summary": "Stage projections, prerequisites, deterministic output and raw-source hashes.",
+      "requirementIds": [
+        "REQ-001",
+        "REQ-002"
+      ],
+      "dependsOn": [
+        "TASK-001"
+      ]
+    },
+    {
+      "id": "TEST-002",
+      "summary": "Missing/large files, byte budgets, unknown fields, external symlinks and malformed inputs.",
+      "requirementIds": [
+        "REQ-002",
+        "REQ-003"
+      ],
+      "dependsOn": [
+        "TASK-001"
+      ]
+    },
+    {
+      "id": "TEST-003",
+      "summary": "CLI success/error codes, unchanged input files, option rejection and existing command regressions.",
+      "requirementIds": [
+        "REQ-004"
+      ],
+      "dependsOn": [
+        "TASK-002"
+      ]
+    }
+  ]
+}
