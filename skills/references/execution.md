@@ -1,6 +1,6 @@
 # Implementation and test evidence
 
-Read with [contract v1](contract.md) when using tc-implement or tc-test. The JSON contract's tests are specifications. The current CLI has no execution runner, trusted receipt store or automated freshness gate.
+Read with [contract v1](contract.md) when using tc-implement or tc-test; tc-review reuses the evidence vocabulary and report limitations while keeping its stricter report-only edit scope. The JSON contract's tests are specifications. The current CLI has no execution runner, trusted receipt store or automated freshness gate.
 
 ## Choose a scope and inspect current state
 

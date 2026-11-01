@@ -1,0 +1,16 @@
+---
+name: tc-review
+description: Review a Tracecraft feature change against its requirements, architecture and observed test evidence. Use for code or PR review with actionable findings and a persisted report, without silently repairing the reviewed code.
+---
+
+# Review the selected change
+
+Read [contract v1](../references/contract.md) and the evidence vocabulary and report limitations in [execution guidance](../references/execution.md). Use [review guidance](references/review.md) for scope, finding standards and outcomes, and [the report template](assets/review.md) for the saved result.
+
+1. Establish the selected feature and review target: explicit base/head, PR diff, working-tree changes or named files. Record resolved revisions and relevant dirty/untracked inputs. Use the user's selected comparison. If none was given, inspect branch/upstream information and state a defensible comparison; ask if alternatives would materially change the review. Do not assume main is the correct base, change branches or reset files. A file-only review can proceed with a declared current-state scope and no change-regression claims.
+2. Read the contract, brief, active decisions, plan, implementation notes and relevant verification reports. `context --stage review` supplies planning context only; load execution reports explicitly. Run the plan-stage structural check when available, but distinguish graph errors or missing artifacts from proven product bugs. Missing optional material narrows coverage; a missing critical baseline or requirement makes the dependent conclusion incomplete.
+3. Read the full selected diff and the relevant surrounding code, callers and assertions. Trace changed behavior against acceptance criteria, interface/design commitments, error paths and relevant security/concurrency/data risks. Inspect changed tests and CI for weakened checks. Separate introduced defects from pre-existing issues. Review only the risk surfaces justified by the change; do not invent a universal audit checklist.
+4. Verify each candidate finding with code-path evidence or a focused reproduction. Use read-only inspection and, when helpful and permitted, checks in a scratch location that preserve the selected code/tests. Inspect commands first; existing host permissions apply. Never claim execution from a report alone or call a speculative concern a confirmed bug. Deduplicate findings and retain only those a developer can act on.
+5. Write a new `reviews/<review-id>.md` identifying inputs, reviewed scope, findings, evidence, coverage gaps and outcome. Use `changes-requested`, `no-findings` or `incomplete` as defined in the guidance; no-findings is scoped, not approval to merge. Report each defect with priority, current file/line, trigger, effect, evidence and a repair direction. Flag freshness uncertainty; old success does not establish that the final diff was tested.
+
+This skill writes review artifacts only. Do not edit production code, tests or CI to fix findings, and do not post comments, approve, merge, push or deploy without a separate user request. If the user also authorized repairs, finish the review record, perform repairs as a clearly separate implementation step, then review and verify the updated inputs. Preserve earlier reports.

@@ -51,3 +51,11 @@ Local validation on 1 November 2026 with Node.js 26.5.0:
 - A synthetic expiry-boundary pilot observed an initial equality-test failure, a minimal comparator repair, and three passing tests in both the implementation and separate verification passes. See evals/execution-skills-pilot.md for scope and input hashes. This same-session author smoke test is not independent agent evaluation or host certification.
 
 The two skills produce agent-authored observational reports. Trusted execution receipts, automatic evidence freshness and a review skill remain future work.
+
+## Review skill update
+
+Local validation on 1 November 2026 with Node.js 26.5.0: all 35 toolkit tests passed, zero failed/skipped. Doctor now checks all six skills; a regression test confirms removal of the review entrypoint, finding guidance or report template produces a diagnostic failure. Skill-creator validation passed for all six skill files, local Markdown links resolved and an extracted npm archive passed its toolkit-resource check. No package was published.
+
+A same-session synthetic review compared an exclusive expiry baseline with a changed inclusive comparator. The existing two-test suite passed; a direct equality assertion passed on the baseline and failed on the changed source. The saved pilot report records a P2 finding, criterion links, input hashes and repair direction. Source/test hashes were identical before and after the review. See evals/review-skill-pilot.md. This deliberately seeded author smoke test is not independent-agent evaluation or evidence of general defect-detection quality.
+
+tc-review is now implemented as an instruction workflow. Automated review gates, trusted input binding and evidence freshness remain unimplemented.

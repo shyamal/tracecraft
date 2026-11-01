@@ -4,7 +4,7 @@
 
 Tracecraft is a proposed open-source workflow toolkit for developers using AI coding assistants. It keeps requirements, architecture decisions, implementation tasks, and test plans connected in a repository. The name is provisional; package and trademark availability have not been checked.
 
-This is a working **0.1.0 prototype**, not the complete MVP. It contains five workflow skills, reusable templates, a dependency-free local CLI, an example feature contract, tests, and an implementable product and repository plan. No gstack source or prompts were copied.
+This is a working **0.1.0 prototype**, not the complete MVP. It contains six workflow skills, reusable templates, a dependency-free local CLI, an example feature contract, tests, and an implementable product and repository plan. No gstack source or prompts were copied.
 
 ## Start here
 
@@ -41,12 +41,14 @@ Ask your assistant to read `skills/tc-specify/SKILL.md` and specify your feature
 
 When ready to code, use `skills/tc-implement/SKILL.md` for a selected task, then `skills/tc-test/SKILL.md` to verify its acceptance criteria. These skills use your assistant's existing coding and command tools. Their reports distinguish observed results from planned tests; the CLI does not yet provide a trusted execution runner.
 
+Finish with `skills/tc-review/SKILL.md` to inspect the selected change against requirements, design and test evidence. Review produces a report with findings and coverage limits; it does not silently repair code or approve a release.
+
 The toolkit targets any application language. Its own CLI uses JavaScript ES modules and Node's built-in test runner. The first public MVP should add JSON Schema validation, revision-bound verification records and tested host adapters.
 
 ## Status and scope
 
-Implemented: specify/architect/plan/implement/test skills with templates, read-only local setup diagnostics, stage-specific structural checks, bounded context export with source hashes and omission reporting, contract creation, reference validation, requirement-to-design/task/test coverage, transitive change impact, and automated CLI/core tests.
+Implemented: specify/architect/plan/implement/test/review skills with templates, read-only local setup diagnostics, stage-specific structural checks, bounded context export with source hashes and omission reporting, contract creation, reference validation, requirement-to-design/task/test coverage, transitive change impact, and automated CLI/core tests.
 
-Planned: review skill, host installers, trusted execution receipts, evidence freshness, review gates, task-specific context filtering, CI integration for consuming projects and a published package. The included CI workflow tests the toolkit itself.
+Planned: host installers, trusted execution receipts, evidence freshness, automated review gates, task-specific context filtering, CI integration for consuming projects and a published package. The included CI workflow tests the toolkit itself.
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) and [SECURITY.md](SECURITY.md). MIT licensed. Inspired by gstack's workflow approach; independently designed and not affiliated with gstack.

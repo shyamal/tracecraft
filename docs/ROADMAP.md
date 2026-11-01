@@ -12,7 +12,7 @@ Estimates assume one developer familiar with JavaScript and AI coding tools, wor
 
 Public MVP = phases 1–3. Do not position phase 0 as an autonomous engineering agent.
 
-Current progress: five skills (specify/architect/plan/implement/test) and their templates, `check --stage specify|architect|plan`, bounded `context` exports and read-only `doctor` diagnostics are implemented. Context was specified/planned using the first three skills; implementation/testing have a same-session synthetic boundary-fix pilot. Neither is independent host certification. Phase 1 remains incomplete: richer schema and independent real-project pilots are outstanding. Doctor checks local prerequisites and explicitly leaves native-host and configuration integration unverified. See [skill usage](SKILLS.md), [context export](CONTEXT.md) and [setup diagnostics](DOCTOR.md).
+Current progress: six skills (specify/architect/plan/implement/test/review) and their templates, `check --stage specify|architect|plan`, bounded `context` exports and read-only `doctor` diagnostics are implemented. Context was specified/planned using the first three skills; implementation/testing and review have same-session synthetic pilots. These are not independent host certification. Phase 1 remains incomplete: richer schema and independent real-project pilots are outstanding. Doctor checks local prerequisites and explicitly leaves native-host and configuration integration unverified. See [skill usage](SKILLS.md), [context export](CONTEXT.md) and [setup diagnostics](DOCTOR.md).
 
 ## Current repository
 
