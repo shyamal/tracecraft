@@ -12,6 +12,8 @@ Estimates assume one developer familiar with JavaScript and AI coding tools, wor
 
 Public MVP = phases 1–3. Do not position phase 0 as an autonomous engineering agent.
 
+Progress update: the first three planning skills and their templates now exist, together with `check --stage specify|architect|plan`. Phase 1 remains incomplete: context/doctor commands, richer schema and real-project pilots are outstanding. See [skill usage](SKILLS.md).
+
 ## Current repository
 
 ```text

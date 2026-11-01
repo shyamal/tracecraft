@@ -1,0 +1,4 @@
+interface:
+  display_name: "Tracecraft Specify"
+  short_description: "Turn feature requests into testable requirements"
+  default_prompt: "Use $tc-specify to turn this feature request into a requirement contract and brief."

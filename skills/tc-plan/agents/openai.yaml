@@ -1,0 +1,4 @@
+interface:
+  display_name: "Tracecraft Plan"
+  short_description: "Plan implementation tasks and acceptance tests"
+  default_prompt: "Use $tc-plan to create dependency-ordered tasks and planned tests for this feature."

@@ -5,14 +5,14 @@
 | Command | Inputs | Output / effects | Failure |
 |---|---|---|---|
 | `tracecraft new <file> <feature-id>` | Explicit new file path; lowercase hyphenated ID | Draft JSON, exclusive create; parent must already exist | Existing file, invalid ID or I/O: exit 2 |
-| `tracecraft check <file>` | Feature JSON | Read-only `{ok, scope, diagnostics}` | Invalid contract: exit 1; parse/I/O: exit 2 |
+| `tracecraft check <file> [--stage specify\|architect\|plan]` | Feature JSON; default stage is plan | Read-only `{ok, scope, stage, diagnostics}` | Invalid contract: exit 1; parse/I/O/usage: exit 2 |
 | `tracecraft impact <file> <node-id>` | Structurally valid feature; existing node ID | Read-only `{changed, affected}` with sorted transitive IDs | Invalid contract: exit 1; unknown ID: exit 2 |
 
 Run through `node bin/tracecraft.mjs` from this source tree. These commands neither invoke AI nor run product tests. `check` passing means structural coverage, not implementation completion. Errors contain a machine-readable code and an actionable message.
 
-## Planned assistant skills
+## Assistant skills
 
-Proposed namespace: `tc-`. Slash-command spelling depends on the host; until adapters are built, these are specifications to follow manually. Each skill should fit in one short instruction file with detailed templates loaded only when needed. The shared rules below are part of every skill contract.
+The first three skills are implemented under `skills/`: `tc-specify`, `tc-architect` and `tc-plan`. See [usage](SKILLS.md) for explicit file-based invocation and stage checks. The remaining skills below are planned. Native command discovery depends on host registration; host adapters are not installed by this prototype.
 
 | Skill | Trigger / inputs | Procedure | Artifacts and exit condition | Allowed effects |
 |---|---|---|---|---|

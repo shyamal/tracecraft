@@ -8,5 +8,5 @@
   "engines": { "node": ">=24" },
   "bin": { "tracecraft": "bin/tracecraft.mjs" },
   "scripts": { "test": "node --test" },
-  "files": ["bin", "src", "docs", "examples", "README.md", "LICENSE", "SECURITY.md"]
+  "files": ["bin", "src", "docs", "examples", "skills", "evals", "README.md", "LICENSE", "SECURITY.md", "CONTRIBUTING.md"]
 }
