@@ -1,6 +1,6 @@
 # Local execution primitive
 
-`src/runner.mjs` exports an experimental `runCommand` function for macOS/Linux. It is a library primitive, not a `verify` CLI command. Persistent receipt storage, command configuration, source fingerprints, freshness and workflow gates remain planned. Windows execution is explicitly rejected until process-tree cleanup is implemented and tested there; existing planning CLI commands retain Windows support.
+`src/runner.mjs` exports an experimental `runCommand` function for macOS/Linux. It is a library primitive, not a `verify` CLI command. The [receipt library](RECEIPTS.md) now saves and validates observations when explicitly called. Command configuration, source fingerprints, freshness and workflow gates remain planned. Windows execution is explicitly rejected until process-tree cleanup is implemented and tested there; existing planning CLI commands retain Windows support.
 
 ## Explicit inputs
 
