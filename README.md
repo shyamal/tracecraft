@@ -14,6 +14,7 @@ This is a working **0.1.0 prototype**, not the complete MVP. It contains seven w
 - [Export context for your assistant](docs/CONTEXT.md)
 - [Check your local setup](docs/DOCTOR.md)
 - [Experimental execution library and limits](docs/RUNNER.md)
+- [Save and validate execution receipts](docs/RECEIPTS.md)
 - [Feature schema v2 and safe migration](docs/SCHEMA.md)
 - [Phased MVP and repository implementation backlog](docs/ROADMAP.md)
 - [Research sources and inspection limits](docs/SOURCES.md)
@@ -144,7 +145,7 @@ Use `skills/tc-impact/SKILL.md` with a feature contract, changed node ID and pro
 | Validation | Structural stage checks, references and declared coverage | Evidence freshness and automated review gates |
 | Context | Bounded planning packets, source hashes and explicit omissions | Task-specific filtering |
 | Change impact | Transitive dependencies from the declared contract | — |
-| Verification | Assistant-run checks and reports; experimental POSIX execution library | Persistent execution receipts and CLI integration |
+| Verification | Assistant-run checks; POSIX runner and versioned receipt storage libraries | CLI integration, input binding and freshness |
 | Local setup | Read-only `doctor` diagnostics | Published package |
 | CI | Automated tests for the toolkit itself | Integration for consuming applications |
 

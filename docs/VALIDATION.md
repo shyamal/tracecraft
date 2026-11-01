@@ -79,3 +79,8 @@ The evaluation scenario cards in `evals/impact-skill.md` are prospective. No ind
 ## Execution primitive
 
 Local macOS validation: 54 tests passed, zero failed, with one Windows-only rejection test skipped (55 total). Runner checks cover explicit argv/environment, exit outcomes, missing executable, timeout/cancellation, bounded literal-redacted output, invalid inputs and descendant pipe cleanup. This validates the library primitive, not persistent receipts, freshness, Windows execution or criterion coverage.
+
+
+## Persistent execution receipts
+
+Local macOS validation: 60 tests passed, zero failed, with one Windows-only runner test skipped (61 total). Receipt tests cover round-trips, immutable inputs, concurrent save collisions, unknown versions/fields, outcome contradictions, malformed JSON, missing parents, bounded reads and persistence of all six real runner outcomes. The runner-to-storage check confirms supplied literal redaction survives persistence. Storage tests do not certify execution authenticity, source binding, freshness or cross-platform behavior.
