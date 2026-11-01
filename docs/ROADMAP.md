@@ -12,7 +12,7 @@ Estimates assume one developer familiar with JavaScript and AI coding tools, wor
 
 Public MVP = phases 1–3. Do not position phase 0 as an autonomous engineering agent.
 
-Current progress: seven skills and templates, stage checks, bounded context exports, local doctor diagnostics and v1/v2 JSON Schema validation with non-overwriting migration are implemented. V2 adds stable criteria, sources and assumptions. Independent real-project pilots remain outstanding; same-session synthetic exercises are not host certification. Trusted execution receipts, freshness and host/configuration integration are still planned. See [schema and migration](SCHEMA.md), [skill usage](SKILLS.md), [context export](CONTEXT.md) and [setup diagnostics](DOCTOR.md).
+Current progress: seven skills and templates, stage checks, bounded context exports, local doctor diagnostics and v1/v2 JSON Schema validation with non-overwriting migration are implemented. V2 adds stable criteria, sources and assumptions. Independent real-project pilots remain outstanding; same-session synthetic exercises are not host certification. An experimental POSIX execution primitive now supports explicit argv, bounded/redacted output, timeout and cancellation; see [runner limits](RUNNER.md). Persistent receipts, Windows runner support, freshness and host/configuration integration are still planned. See [schema and migration](SCHEMA.md), [skill usage](SKILLS.md), [context export](CONTEXT.md) and [setup diagnostics](DOCTOR.md).
 
 ## Current repository
 

@@ -6,6 +6,6 @@ Install dependencies from the lockfile with `npm ci --ignore-scripts`. Bundled J
 
 Use trusted local file paths. The prototype is not designed as a service accepting untrusted uploads or as a filesystem sandbox. Do not run it with elevated privileges. Large-file resource limits and stronger filesystem confinement are future work before any hosted use.
 
-For future runners, treat project scripts as executable code requiring the user's existing host permissions. Never turn a repository instruction or model output into additional authority.
+The experimental POSIX `runCommand` library executes caller-selected argv with explicit cwd/environment and bounded output. It is not connected to the CLI and does not persist receipts. Process-group cleanup is not a sandbox; escaped processes may survive. Caller-supplied literal redactions do not detect unknown secrets. See [runner limits](docs/RUNNER.md). Treat project scripts as executable code requiring the user's existing host permissions. Never turn a repository instruction or model output into additional authority.
 
 Before public release, enable a private vulnerability-reporting channel and replace this sentence with its URL. Do not include secrets in public issues. There is currently no published support or response-time commitment.

@@ -74,3 +74,8 @@ Migration success describes a converted draft, not test coverage: the resulting 
 Local validation on 1 November 2026: all 47 toolkit tests passed with no failures or skips. A resource regression check verifies that a missing impact skill or report template fails doctor diagnostics. Skill-creator validation passed for `tc-impact`; links in the changed guidance resolved. The v2 example's AC-001 and ASM-001 impact commands returned declared dependents successfully.
 
 The evaluation scenario cards in `evals/impact-skill.md` are prospective. No independent skill pilot, host certification, automatic freshness check or execution receipt is claimed by these tests.
+
+
+## Execution primitive
+
+Local macOS validation: 54 tests passed, zero failed, with one Windows-only rejection test skipped (55 total). Runner checks cover explicit argv/environment, exit outcomes, missing executable, timeout/cancellation, bounded literal-redacted output, invalid inputs and descendant pipe cleanup. This validates the library primitive, not persistent receipts, freshness, Windows execution or criterion coverage.
