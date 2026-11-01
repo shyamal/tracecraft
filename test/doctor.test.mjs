@@ -164,3 +164,17 @@ test('CLI doctor defaults to cwd, accepts explicit project and does not create f
     assert.equal(run(...args).status, 2);
   }
 });
+
+
+test('impact assessment requires its skill and report template', async t => {
+  const options = await setup(t);
+  for (const resource of ['skills/tc-impact/SKILL.md', 'skills/tc-impact/assets/impact.md']) {
+    const path = join(options.toolkitRoot, resource);
+    const content = await readFile(path);
+    await rm(path);
+    const result = await doctor(options);
+    assert.equal(result.ok, false);
+    assert.ok(check(result, 'toolkit.resources').message.includes(resource));
+    await writeFile(path, content);
+  }
+});

@@ -67,3 +67,10 @@ Local validation on 1 November 2026 with Node.js 26.5.0: all 46 tests passed, ze
 Both example contracts passed the plan check. All six skills passed skill-creator validation and local Markdown links resolved. A source-checkout `npm ci --ignore-scripts` succeeded from the cached lockfile. An actual locally built package was extracted and its exact validator dependency installed from cache; both example checks and packaged doctor passed. No package was published. CI now installs locked dependencies before testing; cross-platform CI execution for this change has not yet been observed.
 
 Migration success describes a converted draft, not test coverage: the resulting empty criterion mappings deliberately fail the plan check until reviewed. Source truth, assumption acceptance and actual test execution remain outside structural validation.
+
+
+## Impact skill addition
+
+Local validation on 1 November 2026: all 47 toolkit tests passed with no failures or skips. A resource regression check verifies that a missing impact skill or report template fails doctor diagnostics. Skill-creator validation passed for `tc-impact`; links in the changed guidance resolved. The v2 example's AC-001 and ASM-001 impact commands returned declared dependents successfully.
+
+The evaluation scenario cards in `evals/impact-skill.md` are prospective. No independent skill pilot, host certification, automatic freshness check or execution receipt is claimed by these tests.
