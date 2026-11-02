@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "feature": "feature.json",
+  "checks": [
+    {
+      "commandId": "unit",
+      "testIds": [
+        "TEST-001"
+      ],
+      "receipt": ".tracecraft/local/unit.json"
+    }
+  ]
+}

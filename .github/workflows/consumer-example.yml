@@ -1,0 +1,26 @@
+name: Pinned consumer example
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  consumer:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Check out the pinned Tracecraft toolkit
+        uses: actions/checkout@v4
+        with:
+          repository: shyamal/tracecraft
+          ref: 49c625c8de51a3e714f978c9f7779f81dfd31afc
+          path: .toolkit
+          persist-credentials: false
+      - name: Install locked toolkit dependencies
+        working-directory: .toolkit
+        run: npm ci --ignore-scripts
+      - name: Exercise the sample consumer and evidence failure cases
+        run: node examples/consumer-ci/run-ci.mjs --toolkit .toolkit
