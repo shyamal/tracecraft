@@ -104,3 +104,8 @@ Local macOS validation on 2 November 2026: 79 tests passed, zero failed, with on
 ## Receipt status
 
 Local macOS validation on 2 November 2026: 85 tests passed, zero failed, with one Windows-only runner test skipped (86 total). Status tests cover current/stale comparisons, independent source/test/config/contract edits, additions/removals, evidence exclusions, v1 and unstable receipts, failed or incomplete process observations, unreadable inputs, malformed receipts, exit codes and no writes. The existing real verify lifecycle test also confirms that a bound receipt is current immediately after execution and stale after a later selected-file edit. These checks do not establish assertion coverage, authenticity or feature readiness.
+
+
+## Feature evidence aggregation
+
+Local macOS validation on 2 November 2026: 93 tests passed, zero failed, with one Windows-only runner test skipped (94 total). Aggregation checks cover complete explicit mappings, missing receipts, failed/stale/mismatched/cross-feature/legacy/invalid receipts, unknown or duplicate commands, uncovered/unknown tests, traversal, malformed contracts, exit codes and no writes. A real verify-to-aggregate integration test becomes stale after a later selected-source edit. These checks validate declared evidence aggregation, not actual assertion coverage, receipt authenticity or review readiness.

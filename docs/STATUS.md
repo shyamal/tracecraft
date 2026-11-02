@@ -6,7 +6,7 @@ Run a read-only comparison against an explicitly selected project:
 node bin/tracecraft.mjs status /private/evidence/run-001.json --project /app
 ```
 
-The command validates the receipt and rehashes the exact selection recorded in an unchanged v2 binding. It never executes recorded argv, loads command settings for execution, edits files or rewrites evidence. It checks one explicit receipt; it does not discover the newest run or aggregate a feature's verification history. Status can run on Windows even though command execution currently requires POSIX.
+The command validates the receipt and rehashes the exact selection recorded in an unchanged v2 binding. It never executes recorded argv, loads command settings for execution, edits files or rewrites evidence. It checks one explicit receipt; it does not discover the newest run or aggregate a feature's verification history. Use the separate [evidence command](EVIDENCE.md) to aggregate explicitly required checks. Status can run on Windows even though command execution currently requires POSIX.
 
 ## Freshness states
 
