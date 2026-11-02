@@ -32,6 +32,6 @@ The output contains only metadata, changed paths and reasons, not saved argv, en
 
 ## Limits
 
-This is receipt status, not feature readiness or a release gate. It does not assess requirements, test discovery, assertion quality, review approval or whether the selected scope covers all dependencies. Receipts are editable and unsigned. A copied checkout can match the same fingerprint without being the original execution location. Paths and hashes may still be sensitive.
+This is receipt status. The separate [readiness command](READINESS.md) evaluates declared feature policy; neither command grants release approval. It does not assess requirements, test discovery, assertion quality, review approval or whether the selected scope covers all dependencies. Receipts are editable and unsigned. A copied checkout can match the same fingerprint without being the original execution location. Paths and hashes may still be sensitive.
 
 Matching snapshots do not establish that files were immutable during the original run, and the scan itself is not atomic. A result can become stale immediately afterward. Restoring exact bytes/modes can make an originally unchanged run current again; it cannot make an unstable run usable. Environment changes, tool upgrades and external services remain outside the comparison unless represented in selected files. See [fingerprint limits](FINGERPRINTS.md) and [receipt trust boundaries](RECEIPTS.md).

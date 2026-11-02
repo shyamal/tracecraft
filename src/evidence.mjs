@@ -9,7 +9,7 @@ import { receiptStatus } from './status.mjs';
 const ajv = new Ajv2020({ strict: true, allErrors: true });
 const compile = name => ajv.compile(JSON.parse(readFileSync(new URL(`../schemas/${name}.schema.json`, import.meta.url), 'utf8')));
 const manifestShape = compile('evidence-v1'), configShape = compile('config-v1');
-async function json(file) {
+export async function readEvidenceInput(file) {
   if (!(await stat(file)).isFile()) throw new TypeError('Input must be a regular file.');
   const handle = await open(file, 'r');
   try {
@@ -24,7 +24,7 @@ const inside = (root, file) => { const r = relative(root, file); return r !== '.
 function safePath(path) {
   return typeof path === 'string' && path && !isAbsolute(path) && !/^[A-Za-z]:/.test(path) && !path.includes('\\') && !path.includes('\0') && path.split('/').every(s => s && s !== '.' && s !== '..');
 }
-async function localPath(root, path) {
+export async function resolveEvidencePath(root, path) {
   if (!safePath(path)) throw new TypeError('Evidence paths must be project-relative without traversal.');
   const resolved = await realpath(resolve(root, path));
   if (!inside(root, resolved) || resolved !== resolve(root, path)) throw new Error('Evidence paths must not use symlinks.');
@@ -38,10 +38,10 @@ export async function featureEvidence(file, { project } = {}) {
   if (!(await stat(root)).isDirectory()) throw new TypeError('Project must be a directory.');
   const manifestFile = await realpath(file);
   if (!inside(root, manifestFile)) throw new Error('Evidence manifest must be inside the project.');
-  const manifest = await json(manifestFile), m = manifest.value;
+  const manifest = await readEvidenceInput(manifestFile), m = manifest.value;
   if (!manifestShape(m)) throw Object.assign(new Error('Invalid evidence manifest; see docs/EVIDENCE.md.'), { code: 'INVALID_EVIDENCE_MANIFEST' });
-  const featureFile = await localPath(root, m.feature), configFile = await localPath(root, '.tracecraft/config.json');
-  const feature = await json(featureFile), config = await json(configFile);
+  const featureFile = await resolveEvidencePath(root, m.feature), configFile = await resolveEvidencePath(root, '.tracecraft/config.json');
+  const feature = await readEvidenceInput(featureFile), config = await readEvidenceInput(configFile);
   if (!configShape(config.value)) throw Object.assign(new Error('Invalid project command configuration.'), { code: 'INVALID_CONFIG' });
   const structural = validate(feature.value, { stage: 'plan' });
   const diagnostics = [], commands = new Set(), covered = new Set();
@@ -64,7 +64,7 @@ export async function featureEvidence(file, { project } = {}) {
     let item = { ...check, state: 'missing' };
     if (check.receipt !== null) {
       try {
-        const path = await localPath(root, check.receipt);
+        const path = await resolveEvidencePath(root, check.receipt);
         const status = await receiptStatus(path, { project: root });
         const matches = status.receiptVersion === 2 && status.featurePath === m.feature && status.commandId === check.commandId && status.configPath === '.tracecraft/config.json';
         item = { ...check, state: matches && status.ok ? 'usable' : 'unusable', status,
@@ -77,7 +77,7 @@ export async function featureEvidence(file, { project } = {}) {
   }
   // Detect changes to the aggregate's definitions while individual checks were evaluated.
   try {
-    result.inputsStable = (await json(manifestFile)).hash === manifest.hash && (await json(featureFile)).hash === feature.hash && (await json(configFile)).hash === config.hash;
+    result.inputsStable = (await readEvidenceInput(manifestFile)).hash === manifest.hash && (await readEvidenceInput(featureFile)).hash === feature.hash && (await readEvidenceInput(configFile)).hash === config.hash;
   } catch { result.inputsStable = false; }
   result.ok = result.inputsStable && result.summary.usable === result.summary.required;
   return result;

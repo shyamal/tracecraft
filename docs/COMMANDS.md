@@ -9,6 +9,7 @@
 | `tracecraft impact <file> <node-id>` | Structurally valid feature; existing node ID | Read-only `{changed, affected}` with sorted transitive IDs | Invalid contract: exit 1; unknown ID: exit 2 |
 | `tracecraft context <file> --stage <stage> [--max-bytes <limit>]` | Feature JSON; explicit supported stage | Bounded JSON packet with selected feature data, companion text, hashes and omissions | Invalid contract: exit 1; usage/I/O/required-size: exit 2 |
 | `tracecraft doctor [--project <directory>]` | Current directory or explicit project | Read-only local setup checks and remedies | Failed checks: exit 1; usage/unexpected errors: exit 2 |
+| `tracecraft readiness <manifest-file> --project <dir> [--review <relative-record>]` | Evidence manifest and optional structured review | Read-only planning/execution/review policy gates | Any blocked gate: exit 1; invalid top-level input/usage: exit 2 |
 | `tracecraft evidence <manifest-file> --project <dir>` | Explicit feature/check/receipt manifest | Read-only structural, mapping and receipt aggregation | Unusable/missing evidence or policy: exit 1; invalid top-level input/usage: exit 2 |
 | `tracecraft status <receipt-file> --project <dir>` | Explicit receipt and project | Read-only execution and selected-input freshness report | Non-usable evidence: exit 1; invalid receipt/project/usage: exit 2 |
 | `tracecraft verify <feature> --project <dir> --command-id <id> --receipt <new-file> [--dry-run]` | Explicit project, command and new receipt path | Preview, or execute configured argv and save observation; POSIX only | Saved unsuccessful outcome/invalid contract: exit 1; config/I/O/usage: exit 2 |
@@ -43,7 +44,7 @@ Shared behavior: read existing artifacts first; cite repository evidence; preser
 ## Planned terminal API
 
 - `tracecraft init --host <host> --dry-run`: list project-local additions and collisions. Actual install creates only owned files, records a manifest and never replaces unrelated host rules.
-- Feature readiness gates: add assertion and review readiness policy. The implemented [evidence command](EVIDENCE.md) aggregates explicit required checks; [status](STATUS.md) checks a single receipt.
+- Independent assertion and review-quality evaluation remains outside automated policy gates. [Readiness](READINESS.md) checks planning, execution and declared review consistency; [evidence](EVIDENCE.md) aggregates checks and [status](STATUS.md) checks a single receipt.
 - `tracecraft check <feature> --gate <stage> --json`: schema, graph and selected stage policy. Planned gate flags are not accepted by the prototype.
 
 ## Skill evaluation contract
