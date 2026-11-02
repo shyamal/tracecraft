@@ -9,7 +9,7 @@ const exec = promisify(execFile);
 const ownRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 export const requiredResources = [
   'bin/tracecraft.mjs', 'src/contract.mjs', 'src/context.mjs', 'src/doctor.mjs',
-  'src/review-packet.mjs',
+  'src/review-packet.mjs', 'src/adapters.mjs',
   'src/policy.mjs', 'schemas/review-v1.schema.json',
   'src/evidence.mjs', 'schemas/evidence-v1.schema.json',
   'src/status.mjs', 'src/fingerprint.mjs',
