@@ -37,7 +37,7 @@ export async function receiptStatus(file, { project } = {}) {
     return report;
   }
   const b = receipt.binding;
-  Object.assign(report, { featurePath: b.featurePath, commandId: b.commandId, runInputState: b.state });
+  Object.assign(report, { featurePath: b.featurePath, configPath: b.configPath, commandId: b.commandId, runInputState: b.state });
   if (b.state !== 'unchanged') {
     report.freshness = 'unstable-run';
     reasons.push({ code: 'RUN_INPUTS_UNSTABLE', message: `The original run's input comparison was ${b.state}; restoring files cannot repair that observation.` });

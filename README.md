@@ -18,6 +18,7 @@ This is a working **0.1.0 prototype**, not the complete MVP. It contains seven w
 - [Run a configured check with verify](docs/VERIFY.md)
 - [Fingerprint selected verification inputs](docs/FINGERPRINTS.md)
 - [Check whether a receipt is still current](docs/STATUS.md)
+- [Aggregate required checks for a feature](docs/EVIDENCE.md)
 - [Feature schema v2 and safe migration](docs/SCHEMA.md)
 - [Phased MVP and repository implementation backlog](docs/ROADMAP.md)
 - [Research sources and inspection limits](docs/SOURCES.md)
@@ -149,7 +150,8 @@ Use `skills/tc-impact/SKILL.md` with a feature contract, changed node ID and pro
 | Context | Bounded planning packets, source hashes and explicit omissions | Task-specific filtering |
 | Change impact | Transitive dependencies from the declared contract | — |
 | Verification | Configured POSIX checks, dry-run previews and versioned receipts | Feature readiness and workflow gates |
-| Input fingerprints | Selected-file SHA-256, evidence exclusions and receipt status checks | Feature-wide evidence aggregation |
+| Feature evidence | Explicit required checks, receipt matching and missing/stale summaries | Assertion and review readiness gates |
+| Input fingerprints | Selected-file SHA-256, evidence exclusions and receipt status checks | Feature readiness gates |
 | Local setup | Read-only `doctor` diagnostics | Published package |
 | CI | Automated tests for the toolkit itself | Integration for consuming applications |
 
