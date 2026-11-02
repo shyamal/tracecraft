@@ -50,3 +50,5 @@ The CLI writes a JSON summary containing command ID, feature ID, receipt path, o
 SIGINT/SIGTERM requests cancel the running check and attempt to save the cancellation observation. Forced termination cannot guarantee a receipt. Timeout defaults to 30 seconds. Output is capped per stream; commands that escape their process group are outside cleanup guarantees.
 
 If receipt storage fails after execution, the CLI reports that the command ended but persistence failed. Inspect the destination before retrying; do not automatically rerun a command that may have side effects. Preflight checks cannot prevent concurrent writers or a command itself from creating the receipt destination. The store refuses to overwrite it. Treat stored output as potentially sensitive even after literal redaction.
+
+The [input fingerprint library](FINGERPRINTS.md) is available for explicit file selections, but verify does not yet attach fingerprints to receipts. Config v1 does not accept an input selection field; do not assume the library is automatically applied.

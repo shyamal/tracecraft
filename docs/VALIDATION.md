@@ -89,3 +89,8 @@ Local macOS validation: 60 tests passed, zero failed, with one Windows-only runn
 ## Verify CLI integration
 
 Local macOS validation on 2 November 2026: 66 tests passed, zero failed, with one Windows-only runner test skipped (67 total). New CLI tests cover persisted execution, failure/spawn/timeout receipts, cancellation, preview without writes, invalid configuration, directory escapes, existing destinations, malformed flags and invalid feature contracts. These checks do not establish source binding, assertion coverage, freshness or cross-platform execution support.
+
+
+## Selected input fingerprints
+
+Local macOS validation on 2 November 2026: 74 tests passed, zero failed, with one Windows-only runner test skipped (75 total). Fingerprint checks cover stable ordering and checkout relocation, timestamp-only changes, independent source/test/config/contract edits, added/deleted/renamed files, evidence exclusions, missing/traversing inputs, symlink rejection, byte/entry limits and executable modes. These are library checks; receipt binding, automated freshness and cross-platform CI verification remain outstanding.
