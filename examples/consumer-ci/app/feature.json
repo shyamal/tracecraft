@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 2,
+  "id": "label-slug",
+  "title": "Convert labels to stable ASCII slugs",
+  "requirements": [
+    {
+      "id": "REQ-001",
+      "statement": "Users can turn a label into a stable ASCII slug or receive a visible error.",
+      "acceptance": [
+        {
+          "id": "AC-001",
+          "statement": "Normalize case, combining accents and separators; preserve digits and existing slugs."
+        },
+        {
+          "id": "AC-002",
+          "statement": "Reject empty or punctuation-only labels and invalid CLI argument counts with a nonzero exit."
+        }
+      ],
+      "sources": [
+        {
+          "kind": "user",
+          "reference": "Requested a small new sample application for the workflow pilot."
+        }
+      ]
+    }
+  ],
+  "assumptions": [],
+  "decisions": [
+    {
+      "id": "ADR-001",
+      "summary": "Dependency-free Node CLI with explicit ASCII-only slug semantics.",
+      "requirementIds": [
+        "REQ-001"
+      ]
+    }
+  ],
+  "tasks": [
+    {
+      "id": "TASK-001",
+      "summary": "Implement normalization and CLI error reporting with tests.",
+      "requirementIds": [
+        "REQ-001"
+      ],
+      "dependsOn": [
+        "ADR-001"
+      ]
+    }
+  ],
+  "tests": [
+    {
+      "id": "TEST-001",
+      "summary": "Unit and CLI tests cover normalization, idempotence and rejection.",
+      "requirementIds": [
+        "REQ-001"
+      ],
+      "dependsOn": [
+        "TASK-001"
+      ],
+      "criterionIds": [
+        "AC-001",
+        "AC-002"
+      ]
+    }
+  ]
+}
