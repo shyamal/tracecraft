@@ -145,3 +145,25 @@ test('failed commands keep their failure outcome even with unchanged bound input
   const receipt = await readReceipt(f.receipt);
   assert.equal(receipt.binding.state, 'unchanged'); assert.equal(receipt.observation.exitCode, 5);
 });
+
+test('preview and execution redact overlapping literals independently of input order', posix, async t => {
+  const f = await setup(t);
+  for (const redact of [['alpha', 'alpha-beta'], ['alpha-beta', 'alpha']]) {
+    f.config.commands.unit = { argv: [process.execPath, '-e', 'console.log(process.argv[1])', 'alpha-beta'], redact };
+    await writeFile(f.configPath, JSON.stringify(f.config));
+    const preview = f.run(...f.args, '--dry-run'); assert.equal(preview.status, 0);
+    const shown = JSON.parse(preview.stdout).argv;
+    assert.equal(shown.at(-1), '[REDACTED]');
+    assert.equal(f.run().status, 0);
+    const receipt = await readReceipt(f.receipt);
+    assert.deepEqual(receipt.observation.argv, shown);
+    assert.equal(receipt.observation.stdout.text, '[REDACTED]\n'); await rm(f.receipt);
+  }
+});
+test('redaction previews do not rewrite generated replacement markers', posix, async t => {
+  const f = await setup(t);
+  f.config.commands.unit = { argv: [process.execPath, '-e', 'process.exit(0)', 'alpha'], redact: ['alpha', 'REDACTED'] };
+  await writeFile(f.configPath, JSON.stringify(f.config));
+  const preview = f.run(...f.args, '--dry-run'); assert.equal(preview.status, 0);
+  assert.equal(JSON.parse(preview.stdout).argv.at(-1), '[REDACTED]');
+});

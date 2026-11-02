@@ -14,7 +14,7 @@ export const requiredResources = [
   'src/evidence.mjs', 'schemas/evidence-v1.schema.json',
   'src/status.mjs', 'src/fingerprint.mjs',
   'src/verify.mjs', 'schemas/config-v1.schema.json',
-  'src/runner.mjs', 'src/receipts.mjs', 'schemas/receipt-v1.schema.json', 'schemas/receipt-v2.schema.json',
+  'src/redaction.mjs', 'src/runner.mjs', 'src/receipts.mjs', 'schemas/receipt-v1.schema.json', 'schemas/receipt-v2.schema.json',
   'src/schema.mjs', 'src/migrate.mjs', 'schemas/feature-v1.schema.json', 'schemas/feature-v2.schema.json',
   'skills/references/contract.md', 'skills/references/execution.md',
   'skills/tc-specify/SKILL.md', 'skills/tc-specify/assets/brief.md',

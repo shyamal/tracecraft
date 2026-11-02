@@ -23,6 +23,7 @@ This is a working **0.1.0 prototype**, not the complete MVP. It contains seven w
 - [Export a bounded review packet](docs/REVIEW-PACKET.md)
 - [Feature schema v2 and safe migration](docs/SCHEMA.md)
 - [First real-project feature pilot: CLI help](evals/cli-help-pilot.md)
+- [Real bug-fix pilot: preview redaction](evals/preview-redaction-pilot.md)
 - [Phased MVP and repository implementation backlog](docs/ROADMAP.md)
 - [Research sources and inspection limits](docs/SOURCES.md)
 
