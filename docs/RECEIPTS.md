@@ -34,7 +34,7 @@ Storage is capped at 16 MiB including JSON formatting. The reader reads at most 
 
 Stored text is exactly the runner's sanitized observation; this library does not detect or redact additional secrets. Inspect output and argv before sharing. Do not commit receipts by default merely because they passed validation. See [runner limits](RUNNER.md) for command authorization, redaction and process cleanup boundaries.
 
-The storage library is portable; actual runner execution remains POSIX-only. Cross-platform filesystem behavior requires CI verification. Later-time freshness checks and workflow gates remain planned.
+The storage library is portable; actual runner execution remains POSIX-only. Cross-platform filesystem behavior requires CI verification. The [status command](STATUS.md) checks one explicit receipt against current inputs. Feature readiness gates remain planned.
 
 
 ## Bound receipts (v2)

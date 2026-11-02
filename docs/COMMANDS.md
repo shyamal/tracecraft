@@ -9,6 +9,7 @@
 | `tracecraft impact <file> <node-id>` | Structurally valid feature; existing node ID | Read-only `{changed, affected}` with sorted transitive IDs | Invalid contract: exit 1; unknown ID: exit 2 |
 | `tracecraft context <file> --stage <stage> [--max-bytes <limit>]` | Feature JSON; explicit supported stage | Bounded JSON packet with selected feature data, companion text, hashes and omissions | Invalid contract: exit 1; usage/I/O/required-size: exit 2 |
 | `tracecraft doctor [--project <directory>]` | Current directory or explicit project | Read-only local setup checks and remedies | Failed checks: exit 1; usage/unexpected errors: exit 2 |
+| `tracecraft status <receipt-file> --project <dir>` | Explicit receipt and project | Read-only execution and selected-input freshness report | Non-usable evidence: exit 1; invalid receipt/project/usage: exit 2 |
 | `tracecraft verify <feature> --project <dir> --command-id <id> --receipt <new-file> [--dry-run]` | Explicit project, command and new receipt path | Preview, or execute configured argv and save observation; POSIX only | Saved unsuccessful outcome/invalid contract: exit 1; config/I/O/usage: exit 2 |
 | `tracecraft migrate <v1-file> <new-v2-file>` | Valid v1 contract; new output path | V2 draft, preserved IDs/text, warnings and unresolved plan diagnostics | Invalid/unsupported data: exit 1; usage/parse/I/O: exit 2 |
 
@@ -41,7 +42,7 @@ Shared behavior: read existing artifacts first; cite repository evidence; preser
 ## Planned terminal API
 
 - `tracecraft init --host <host> --dry-run`: list project-local additions and collisions. Actual install creates only owned files, records a manifest and never replaces unrelated host rules.
-- `tracecraft status <feature>`: derive structural, execution and review readiness separately with stale reasons.
+- Feature-wide status aggregation: derive structural, execution and review readiness across relevant receipts. The implemented `status <receipt-file> --project <dir>` checks one explicit receipt; see [receipt status](STATUS.md).
 - `tracecraft check <feature> --gate <stage> --json`: schema, graph and selected stage policy. Planned gate flags are not accepted by the prototype.
 
 ## Skill evaluation contract

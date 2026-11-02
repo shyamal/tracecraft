@@ -41,7 +41,7 @@ Relative feature, project and receipt paths are resolved from the invocation dir
 
 ## Outcomes
 
-The CLI writes a JSON summary containing command ID, feature ID, receipt path, outcome and output completeness/truncation indicators. Without input selection it reports `inputsBound: false` and stores a v1 observation-only receipt. With input selection it reports `inputsBound: true` and an inputState, and stores a v2 receipt associating the feature/config paths and command ID with before/after manifests. Neither form maps results to test assertions. `freshnessChecked` remains false: the CLI does not recheck receipts against inputs at a later time. Read [receipt limits](RECEIPTS.md) before treating it as evidence.
+The CLI writes a JSON summary containing command ID, feature ID, receipt path, outcome and output completeness/truncation indicators. Without input selection it reports `inputsBound: false` and stores a v1 observation-only receipt. With input selection it reports `inputsBound: true` and an inputState, and stores a v2 receipt associating the feature/config paths and command ID with before/after manifests. Neither form maps results to test assertions. `freshnessChecked` remains false: verify itself does not perform a later-time check; use the separate [status command](STATUS.md) afterward. Read [receipt limits](RECEIPTS.md) before treating it as evidence.
 
 - Exit 0: a valid preview, or command exit zero with a saved receipt and no changed/unavailable input comparison. This does not mean behavioral verification passed.
 - Exit 1: invalid feature contract, a saved nonzero/spawn-error/signalled/timed-out/cancelled observation, or a changed/unavailable input comparison even with command exit zero.

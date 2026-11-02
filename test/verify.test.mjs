@@ -5,6 +5,7 @@ import { join } from 'node:path';
 import { tmpdir } from 'node:os';
 import { fileURLToPath } from 'node:url';
 import { spawnSync, spawn } from 'node:child_process';
+import { receiptStatus } from '../src/status.mjs';
 import { readReceipt, validateReceipt } from '../src/receipts.mjs';
 const cli = fileURLToPath(new URL('../bin/tracecraft.mjs', import.meta.url));
 const fixture = await readFile(new URL('../examples/invite-member-v2.json', import.meta.url), 'utf8');
@@ -102,6 +103,9 @@ test('bound verification stores mandatory feature/config inputs and unchanged fi
   assert.ok(validateReceipt(badDigest).length);
   const badState = structuredClone(receipt); badState.binding.state = 'changed';
   assert.ok(validateReceipt(badState).length);
+  assert.equal((await receiptStatus(f.receipt, { project: f.root })).freshness, 'current');
+  await writeFile(join(f.root, 'source.js'), 'later edit');
+  assert.equal((await receiptStatus(f.receipt, { project: f.root })).freshness, 'stale');
 });
 test('input mutation or removal preserves execution evidence but fails verification', posix, async t => {
   const f = await setup(t);

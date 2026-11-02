@@ -99,3 +99,8 @@ Local macOS validation on 2 November 2026: 74 tests passed, zero failed, with on
 ## Receipt input binding
 
 Local macOS validation on 2 November 2026: 79 tests passed, zero failed, with one Windows-only runner test skipped (80 total). Binding integration checks cover unchanged selections, source mutation/removal, mandatory feature/config inputs, own-receipt exclusion, missing inputs, contradictory manifest digests/states and failed commands with unchanged inputs. V1 compatibility remains covered by existing receipt/verify tests. This does not establish assertion coverage, atomic snapshots, receipt authenticity or later-time freshness.
+
+
+## Receipt status
+
+Local macOS validation on 2 November 2026: 85 tests passed, zero failed, with one Windows-only runner test skipped (86 total). Status tests cover current/stale comparisons, independent source/test/config/contract edits, additions/removals, evidence exclusions, v1 and unstable receipts, failed or incomplete process observations, unreadable inputs, malformed receipts, exit codes and no writes. The existing real verify lifecycle test also confirms that a bound receipt is current immediately after execution and stale after a later selected-file edit. These checks do not establish assertion coverage, authenticity or feature readiness.
