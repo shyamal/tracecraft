@@ -3,20 +3,35 @@ import { readFile, writeFile } from 'node:fs/promises';
 import { draft, impact, validate, stages } from '../src/contract.mjs';
 import { createContext, contextStages, defaultContextBytes } from '../src/context.mjs';
 import { doctor } from '../src/doctor.mjs';
+import { verifyFeature } from '../src/verify.mjs';
 import { migrateV1 } from '../src/migrate.mjs';
 
 const emit = value => process.stdout.write(`${JSON.stringify(value, null, 2)}\n`);
 const [command, file, extra, ...rest] = process.argv.slice(2);
-const usage = 'Usage: tracecraft new <file> <feature-id> | check <file> [--stage specify|architect|plan] | impact <file> <node-id> | context <file> --stage <specify|architect|plan|implement|test|review> [--max-bytes <2048..1048576>] | doctor [--project <directory>] | migrate <v1-file> <new-v2-file>';
+const usage = 'Usage: tracecraft new <file> <feature-id> | check <file> [--stage specify|architect|plan] | impact <file> <node-id> | context <file> --stage <specify|architect|plan|implement|test|review> [--max-bytes <2048..1048576>] | doctor [--project <directory>] | migrate <v1-file> <new-v2-file> | verify <feature-file> --project <dir> --command-id <id> --receipt <new-file> [--dry-run]';
 
 try {
   let stage = 'plan';
-  let contextOptions;
-  if (!['new', 'check', 'impact', 'context', 'doctor', 'migrate'].includes(command)) throw new Error(usage);
+  let contextOptions, verifyOptions;
+  if (!['new', 'check', 'impact', 'context', 'doctor', 'migrate', 'verify'].includes(command)) throw new Error(usage);
   if (command === 'doctor') {
     if (file !== undefined && (file !== '--project' || !extra || extra.startsWith('--') || rest.length)) throw new Error(usage);
   } else if (!file) throw new Error(usage);
-  if (command === 'context') {
+  if (command === 'verify') {
+    verifyOptions = {};
+    const args = extra === undefined ? [] : [extra, ...rest];
+    const keys = { '--project': 'project', '--command-id': 'commandId', '--receipt': 'receipt' };
+    for (let i = 0; i < args.length; i += 2) {
+      if (args[i] === '--dry-run') {
+        if (verifyOptions.dryRun) throw new Error(usage);
+        verifyOptions.dryRun = true; i--; continue;
+      }
+      const key = Object.hasOwn(keys, args[i]) ? keys[args[i]] : undefined, value = args[i + 1];
+      if (!key || Object.hasOwn(verifyOptions, key) || !value || value.startsWith('--')) throw new Error(usage);
+      verifyOptions[key] = value;
+    }
+    if (!verifyOptions.project || !verifyOptions.commandId || !verifyOptions.receipt) throw new Error(usage);
+  } else if (command === 'context') {
     contextOptions = { maxBytes: defaultContextBytes };
     const args = extra === undefined ? [] : [extra, ...rest];
     const seen = new Set();
@@ -37,7 +52,15 @@ try {
       stage = rest[0];
     }
   } else if (command !== 'doctor' && (!extra || rest.length)) throw new Error(usage);
-  if (command === 'migrate') {
+  if (command === 'verify') {
+    const controller = new AbortController();
+    const cancel = () => controller.abort();
+    process.on('SIGINT', cancel); process.on('SIGTERM', cancel);
+    try {
+      const report = await verifyFeature(file, { ...verifyOptions, signal: controller.signal });
+      emit(report); process.exitCode = report.dryRun || report.outcome === 'exited-zero' ? 0 : 1;
+    } finally { process.off('SIGINT', cancel); process.off('SIGTERM', cancel); }
+  } else if (command === 'migrate') {
     const result = migrateV1(JSON.parse(await readFile(file, 'utf8')));
     await writeFile(extra, `${JSON.stringify(result.contract, null, 2)}\n`, { flag: 'wx' });
     emit({ created: extra, schemaVersion: 2, warnings: result.warnings, planDiagnostics: result.planDiagnostics });

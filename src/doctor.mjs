@@ -9,6 +9,7 @@ const exec = promisify(execFile);
 const ownRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 export const requiredResources = [
   'bin/tracecraft.mjs', 'src/contract.mjs', 'src/context.mjs', 'src/doctor.mjs',
+  'src/verify.mjs', 'schemas/config-v1.schema.json',
   'src/runner.mjs', 'src/receipts.mjs', 'schemas/receipt-v1.schema.json',
   'src/schema.mjs', 'src/migrate.mjs', 'schemas/feature-v1.schema.json', 'schemas/feature-v2.schema.json',
   'skills/references/contract.md', 'skills/references/execution.md',
@@ -99,9 +100,9 @@ export async function doctor({ project = process.cwd(), toolkitRoot = ownRoot,
     }
     try {
       await stat(join(root, '.tracecraft', 'config.json'));
-      add('project.config', 'info', 'A config.json path exists, but configuration loading is not implemented; its contents were not read.', 'Do not rely on configured commands or settings being applied yet.');
+      add('project.config', 'info', 'A config.json path exists; doctor has not read or validated it.', 'Use verify with --dry-run to validate and preview an explicitly selected command.');
     } catch (error) {
-      if (error.code === 'ENOENT' || error.code === 'ENOTDIR') add('project.config', 'info', 'No project configuration is required by this version.');
+      if (error.code === 'ENOENT' || error.code === 'ENOTDIR') add('project.config', 'info', 'No configuration is present; planning commands do not require it, but verify does.');
       else add('project.config', 'warn', 'Project configuration presence could not be checked; no configuration was loaded.', 'Check access to .tracecraft/config.json if you intend to use it later.');
     }
   }

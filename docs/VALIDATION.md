@@ -84,3 +84,8 @@ Local macOS validation: 54 tests passed, zero failed, with one Windows-only reje
 ## Persistent execution receipts
 
 Local macOS validation: 60 tests passed, zero failed, with one Windows-only runner test skipped (61 total). Receipt tests cover round-trips, immutable inputs, concurrent save collisions, unknown versions/fields, outcome contradictions, malformed JSON, missing parents, bounded reads and persistence of all six real runner outcomes. The runner-to-storage check confirms supplied literal redaction survives persistence. Storage tests do not certify execution authenticity, source binding, freshness or cross-platform behavior.
+
+
+## Verify CLI integration
+
+Local macOS validation on 2 November 2026: 66 tests passed, zero failed, with one Windows-only runner test skipped (67 total). New CLI tests cover persisted execution, failure/spawn/timeout receipts, cancellation, preview without writes, invalid configuration, directory escapes, existing destinations, malformed flags and invalid feature contracts. These checks do not establish source binding, assertion coverage, freshness or cross-platform execution support.

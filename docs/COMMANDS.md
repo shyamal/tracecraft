@@ -9,9 +9,10 @@
 | `tracecraft impact <file> <node-id>` | Structurally valid feature; existing node ID | Read-only `{changed, affected}` with sorted transitive IDs | Invalid contract: exit 1; unknown ID: exit 2 |
 | `tracecraft context <file> --stage <stage> [--max-bytes <limit>]` | Feature JSON; explicit supported stage | Bounded JSON packet with selected feature data, companion text, hashes and omissions | Invalid contract: exit 1; usage/I/O/required-size: exit 2 |
 | `tracecraft doctor [--project <directory>]` | Current directory or explicit project | Read-only local setup checks and remedies | Failed checks: exit 1; usage/unexpected errors: exit 2 |
+| `tracecraft verify <feature> --project <dir> --command-id <id> --receipt <new-file> [--dry-run]` | Explicit project, command and new receipt path | Preview, or execute configured argv and save observation; POSIX only | Saved unsuccessful outcome/invalid contract: exit 1; config/I/O/usage: exit 2 |
 | `tracecraft migrate <v1-file> <new-v2-file>` | Valid v1 contract; new output path | V2 draft, preserved IDs/text, warnings and unresolved plan diagnostics | Invalid/unsupported data: exit 1; usage/parse/I/O: exit 2 |
 
-Run through `node bin/tracecraft.mjs` from this source tree. These commands neither invoke AI nor run product tests. `check` passing means structural coverage, not implementation completion. Errors contain a machine-readable code and an actionable message.
+Run through `node bin/tracecraft.mjs` from this source tree. Planning commands do not invoke AI or run product tests. Verify executes a selected configured program; that program may have its own service requirements. `check` passing means structural coverage, not implementation completion. Errors contain a machine-readable code and an actionable message.
 
 Install dependencies with `npm ci --ignore-scripts` first. Both feature versions are supported. See [schema v2 and migration](SCHEMA.md) for criterion-level coverage, source/assumption fields and conservative AC/ASM impact behavior.
 
@@ -40,7 +41,6 @@ Shared behavior: read existing artifacts first; cite repository evidence; preser
 ## Planned terminal API
 
 - `tracecraft init --host <host> --dry-run`: list project-local additions and collisions. Actual install creates only owned files, records a manifest and never replaces unrelated host rules.
-- `tracecraft verify <feature> --command-id <id>`: resolve a configured argv command, run it within permitted scope, persist a receipt even on failure. This command does not make project code trustworthy.
 - `tracecraft status <feature>`: derive structural, execution and review readiness separately with stale reasons.
 - `tracecraft check <feature> --gate <stage> --json`: schema, graph and selected stage policy. Planned gate flags are not accepted by the prototype.
 
