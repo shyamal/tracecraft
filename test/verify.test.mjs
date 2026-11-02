@@ -5,7 +5,7 @@ import { join } from 'node:path';
 import { tmpdir } from 'node:os';
 import { fileURLToPath } from 'node:url';
 import { spawnSync, spawn } from 'node:child_process';
-import { readReceipt } from '../src/receipts.mjs';
+import { readReceipt, validateReceipt } from '../src/receipts.mjs';
 const cli = fileURLToPath(new URL('../bin/tracecraft.mjs', import.meta.url));
 const fixture = await readFile(new URL('../examples/invite-member-v2.json', import.meta.url), 'utf8');
 const posix = { skip: process.platform === 'win32' };
@@ -84,4 +84,60 @@ test('dry-run previews invocation without executing or writing a receipt', posix
   const report = JSON.parse(result.stdout); assert.equal(report.dryRun, true);
   assert.deepEqual(report.argv, f.config.commands.unit.argv);
   await assert.rejects(access(join(f.root, 'ran'))); await assert.rejects(access(f.receipt));
+});
+
+
+test('bound verification stores mandatory feature/config inputs and unchanged fingerprints', posix, async t => {
+  const f = await setup(t); await writeFile(join(f.root, 'source.js'), 'original');
+  f.config.commands.unit.inputs = { paths: ['source.js'] };
+  await writeFile(f.configPath, JSON.stringify(f.config));
+  const preview = f.run(...f.args, '--dry-run'); assert.equal(preview.status, 0, preview.stdout);
+  assert.ok(JSON.parse(preview.stdout).inputs.paths.includes('feature.json'));
+  const result = f.run(); assert.equal(result.status, 0, result.stdout);
+  const report = JSON.parse(result.stdout); assert.equal(report.inputsBound, true); assert.equal(report.inputState, 'unchanged');
+  const receipt = await readReceipt(f.receipt); assert.equal(receipt.schemaVersion, 2);
+  assert.equal(receipt.binding.before.digest, receipt.binding.after.digest);
+  assert.deepEqual(receipt.binding.before.files.map(f => f.path), ['.tracecraft/config.json', 'feature.json', 'source.js']);
+  const badDigest = structuredClone(receipt); badDigest.binding.before.files[0].sha256 = 'a'.repeat(64);
+  assert.ok(validateReceipt(badDigest).length);
+  const badState = structuredClone(receipt); badState.binding.state = 'changed';
+  assert.ok(validateReceipt(badState).length);
+});
+test('input mutation or removal preserves execution evidence but fails verification', posix, async t => {
+  const f = await setup(t);
+  for (const [source, expected] of [
+    ['require("node:fs").writeFileSync("source.js", "changed")', 'changed'],
+    ['require("node:fs").unlinkSync("source.js")', 'unavailable'],
+  ]) {
+    await writeFile(join(f.root, 'source.js'), 'original');
+    f.config.commands.unit = { argv: [process.execPath, '-e', source], inputs: { paths: ['source.js'] } };
+    await writeFile(f.configPath, JSON.stringify(f.config));
+    const result = f.run(); assert.equal(result.status, 1, result.stdout);
+    const receipt = await readReceipt(f.receipt); assert.equal(receipt.observation.outcome, 'exited-zero');
+    assert.equal(receipt.binding.state, expected); await rm(f.receipt);
+  }
+});
+test('selected whole-project snapshots exclude their own receipt destination', posix, async t => {
+  const f = await setup(t); f.config.commands.unit.inputs = { paths: ['.'] };
+  await writeFile(f.configPath, JSON.stringify(f.config));
+  const result = f.run(); assert.equal(result.status, 0, result.stdout);
+  const receipt = await readReceipt(f.receipt);
+  assert.ok(receipt.binding.before.exclude.includes('receipt.json'));
+  assert.equal(receipt.binding.state, 'unchanged');
+});
+test('missing selections and exclusions of mandatory inputs prevent bound execution', posix, async t => {
+  const f = await setup(t, 'require("node:fs").writeFileSync("ran", "yes")');
+  for (const inputs of [{ paths: ['missing'] }, { paths: ['.'], exclude: ['feature.json'] }, { paths: ['.'], exclude: ['.tracecraft'] }]) {
+    f.config.commands.unit.inputs = inputs; await writeFile(f.configPath, JSON.stringify(f.config));
+    assert.equal(f.run().status, 2); await assert.rejects(access(join(f.root, 'ran'))); await assert.rejects(access(f.receipt));
+  }
+});
+
+
+test('failed commands keep their failure outcome even with unchanged bound inputs', posix, async t => {
+  const f = await setup(t, 'process.exit(5)');
+  f.config.commands.unit.inputs = { paths: ['feature.json'] }; await writeFile(f.configPath, JSON.stringify(f.config));
+  const result = f.run(); assert.equal(result.status, 1, result.stdout);
+  const receipt = await readReceipt(f.receipt);
+  assert.equal(receipt.binding.state, 'unchanged'); assert.equal(receipt.observation.exitCode, 5);
 });

@@ -94,3 +94,8 @@ Local macOS validation on 2 November 2026: 66 tests passed, zero failed, with on
 ## Selected input fingerprints
 
 Local macOS validation on 2 November 2026: 74 tests passed, zero failed, with one Windows-only runner test skipped (75 total). Fingerprint checks cover stable ordering and checkout relocation, timestamp-only changes, independent source/test/config/contract edits, added/deleted/renamed files, evidence exclusions, missing/traversing inputs, symlink rejection, byte/entry limits and executable modes. These are library checks; receipt binding, automated freshness and cross-platform CI verification remain outstanding.
+
+
+## Receipt input binding
+
+Local macOS validation on 2 November 2026: 79 tests passed, zero failed, with one Windows-only runner test skipped (80 total). Binding integration checks cover unchanged selections, source mutation/removal, mandatory feature/config inputs, own-receipt exclusion, missing inputs, contradictory manifest digests/states and failed commands with unchanged inputs. V1 compatibility remains covered by existing receipt/verify tests. This does not establish assertion coverage, atomic snapshots, receipt authenticity or later-time freshness.

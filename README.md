@@ -147,8 +147,8 @@ Use `skills/tc-impact/SKILL.md` with a feature contract, changed node ID and pro
 | Validation | Structural stage checks, references and declared coverage | Evidence freshness and automated review gates |
 | Context | Bounded planning packets, source hashes and explicit omissions | Task-specific filtering |
 | Change impact | Transitive dependencies from the declared contract | — |
-| Verification | Configured POSIX checks, dry-run previews and versioned receipts | Receipt input binding and freshness |
-| Input fingerprints | Explicit file/directory selection with SHA-256 and evidence exclusions | Integration with verify and status |
+| Verification | Configured POSIX checks, dry-run previews and versioned receipts | Later-time freshness and workflow gates |
+| Input fingerprints | Explicit file/directory selection with SHA-256 and evidence exclusions | Status and freshness checks |
 | Local setup | Read-only `doctor` diagnostics | Published package |
 | CI | Automated tests for the toolkit itself | Integration for consuming applications |
 

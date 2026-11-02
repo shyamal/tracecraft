@@ -1,6 +1,6 @@
 # Run a configured check
 
-`verify` executes one explicitly selected command on macOS/Linux and saves its process observation as a receipt. It requires a plan-valid feature contract. It does not discover tests, determine assertion coverage, bind source inputs or decide freshness. Windows execution is not supported yet.
+`verify` executes one explicitly selected command on macOS/Linux and saves its process observation as a receipt. It requires a plan-valid feature contract. It does not discover tests, determine assertion coverage or decide current freshness. Optional input selection records before/after fingerprints. Windows execution is not supported yet.
 
 ## Configure and inspect
 
@@ -41,14 +41,29 @@ Relative feature, project and receipt paths are resolved from the invocation dir
 
 ## Outcomes
 
-The CLI writes a JSON summary containing command ID, feature ID, receipt path, outcome and output completeness/truncation indicators. It deliberately reports `inputsBound: false` and `freshnessChecked: false`. The receipt stores the process observation only; it does not persist a feature/test association or source snapshot. Read [receipt limits](RECEIPTS.md) before treating it as evidence.
+The CLI writes a JSON summary containing command ID, feature ID, receipt path, outcome and output completeness/truncation indicators. Without input selection it reports `inputsBound: false` and stores a v1 observation-only receipt. With input selection it reports `inputsBound: true` and an inputState, and stores a v2 receipt associating the feature/config paths and command ID with before/after manifests. Neither form maps results to test assertions. `freshnessChecked` remains false: the CLI does not recheck receipts against inputs at a later time. Read [receipt limits](RECEIPTS.md) before treating it as evidence.
 
-- Exit 0: a valid preview, or command exit zero with a saved receipt. This does not mean behavioral verification passed.
-- Exit 1: invalid feature contract, or a saved nonzero/spawn-error/signalled/timed-out/cancelled observation.
+- Exit 0: a valid preview, or command exit zero with a saved receipt and no changed/unavailable input comparison. This does not mean behavioral verification passed.
+- Exit 1: invalid feature contract, a saved nonzero/spawn-error/signalled/timed-out/cancelled observation, or a changed/unavailable input comparison even with command exit zero.
 - Exit 2: usage, configuration, unsupported platform, input/output or receipt-storage failure.
 
 SIGINT/SIGTERM requests cancel the running check and attempt to save the cancellation observation. Forced termination cannot guarantee a receipt. Timeout defaults to 30 seconds. Output is capped per stream; commands that escape their process group are outside cleanup guarantees.
 
 If receipt storage fails after execution, the CLI reports that the command ended but persistence failed. Inspect the destination before retrying; do not automatically rerun a command that may have side effects. Preflight checks cannot prevent concurrent writers or a command itself from creating the receipt destination. The store refuses to overwrite it. Treat stored output as potentially sensitive even after literal redaction.
 
-The [input fingerprint library](FINGERPRINTS.md) is available for explicit file selections, but verify does not yet attach fingerprints to receipts. Config v1 does not accept an input selection field; do not assume the library is automatically applied.
+## Bind selected inputs
+
+Add an optional `inputs` object to a command in config v1:
+
+```json
+"inputs": {
+  "paths": ["src", "test", "package.json", "package-lock.json"],
+  "exclude": []
+}
+```
+
+Select files that actually exist and matter to the command. Feature and configuration files are always added; attempts to exclude them fail before execution. Bound feature/config paths cannot be symlinks within the project. Project-root aliases are resolved. If the receipt destination is inside the project, that exact path is automatically excluded; exclude other generated evidence directories explicitly when selecting their parents. The preview shows the effective selection and initial digest.
+
+Before execution, the fingerprint must match the exact feature/config bytes parsed to choose the command. After execution the same selection is fingerprinted again. A v2 receipt records `unchanged`, `changed` or `unavailable`; unavailable means a post-run scan failed, with an error code and no after snapshot. The execution observation is retained in every case. Pre-run scan failures prevent execution.
+
+`unchanged` means the two selected snapshots match, not that inputs were immutable during execution or remain current now. These are non-atomic scans: changes made and restored during a run may be undetected. Tool binaries, environment and external services are not bound unless represented by selected files, and filenames/hashes may be sensitive. See [fingerprint limits](FINGERPRINTS.md). Existing commands without inputs still produce v1 receipts; neither version proves assertion coverage or authenticity.
