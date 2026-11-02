@@ -58,7 +58,7 @@ try {
     process.on('SIGINT', cancel); process.on('SIGTERM', cancel);
     try {
       const report = await verifyFeature(file, { ...verifyOptions, signal: controller.signal });
-      emit(report); process.exitCode = report.dryRun || report.outcome === 'exited-zero' ? 0 : 1;
+      emit(report); process.exitCode = report.dryRun || (report.outcome === 'exited-zero' && !['changed', 'unavailable'].includes(report.inputState)) ? 0 : 1;
     } finally { process.off('SIGINT', cancel); process.off('SIGTERM', cancel); }
   } else if (command === 'migrate') {
     const result = migrateV1(JSON.parse(await readFile(file, 'utf8')));

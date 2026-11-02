@@ -64,6 +64,34 @@
               "minLength": 1,
               "maxLength": 1024
             }
+          },
+          "inputs": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "paths"
+            ],
+            "properties": {
+              "paths": {
+                "type": "array",
+                "uniqueItems": true,
+                "maxItems": 10000,
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "minItems": 1
+              },
+              "exclude": {
+                "type": "array",
+                "uniqueItems": true,
+                "maxItems": 10000,
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            }
           }
         }
       }

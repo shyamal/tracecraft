@@ -1,6 +1,6 @@
 # Selected input fingerprints
 
-`fingerprintInputs` in `src/fingerprint.mjs` hashes selected on-disk inputs without requiring Git. It detects dirty and untracked changes within the selected scope. This library is the foundation for future receipt binding: verify still reports `inputsBound: false` and `freshnessChecked: false`. No status command or automated freshness gate is introduced here.
+`fingerprintInputs` in `src/fingerprint.mjs` hashes selected on-disk inputs without requiring Git. It detects dirty and untracked changes within the selected scope. Verify now uses this library for optional [receipt input binding](VERIFY.md#bind-selected-inputs). No status command or later-time freshness gate exists yet.
 
 ```js
 import { fingerprintInputs } from './src/fingerprint.mjs';
@@ -28,4 +28,4 @@ Timestamps, absolute checkout location and Git state are not included in the dig
 
 Default hard limits are 10,000 visited entries, 8 MiB per file and 64 MiB total file bytes. Files are hashed incrementally; limit failures return no partial snapshot. Callers can lower these limits through `limits: { maxEntries, maxFileBytes, maxTotalBytes }`. Ignored entries are not counted. Overlapping selections are read once. There is no wall-clock timeout for slow or stalled filesystems.
 
-The library checks file identity, size, timestamps and mode before/after reading, and checks directory metadata around traversal. Detected concurrent edits fail with `INPUT_CHANGED`; missing paths and other filesystem errors also fail. This is not an atomic tree snapshot and cannot prove no change occurred between separate reads, or detect changes that were made and restored during execution. Future receipt integration must compare inputs around command execution and disclose these limits. A matching digest alone is not evidence of passing assertions, trusted execution or adequate scope.
+The library checks file identity, size, timestamps and mode before/after reading, and checks directory metadata around traversal. Detected concurrent edits fail with `INPUT_CHANGED`; missing paths and other filesystem errors also fail. This is not an atomic tree snapshot and cannot prove no change occurred between separate reads, or detect changes that were made and restored during execution. Receipt integration compares inputs around command execution and retains these limits. A matching digest alone is not evidence of passing assertions, trusted execution or adequate scope.
