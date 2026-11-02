@@ -1,3 +1,4 @@
+import { createLiteralRedactor } from './redaction.mjs';
 import { spawn } from 'node:child_process';
 import { realpath, stat } from 'node:fs/promises';
 import { isAbsolute } from 'node:path';
@@ -14,14 +15,11 @@ export async function runCommand({ argv, cwd, env = {}, timeoutMs = 30000,
     if (!Number.isInteger(value) || value < 1 || value > upper) throw new TypeError(`${name} is out of range.`);
   }
   if (!env || typeof env !== 'object' || Array.isArray(env) || Object.entries(env).some(([k, v]) => !k || /[=\0]/.test(k) || typeof v !== 'string' || v.includes('\0'))) throw new TypeError('env must map valid names to strings.');
-  if (!Array.isArray(redact) || redact.length > 100 || redact.some(v => typeof v !== 'string' || !v || Buffer.byteLength(v) > 4096)) throw new TypeError('redact must contain at most 100 nonempty literals of at most 4096 bytes.');
+  const sanitize = createLiteralRedactor(redact);
   if (signal !== undefined && !(signal instanceof AbortSignal)) throw new TypeError('signal must be an AbortSignal.');
   const directory = await realpath(cwd);
   if (!(await stat(directory)).isDirectory()) throw new TypeError('cwd must be a directory.');
-  const secrets = [...new Set(redact)].sort((a, b) => b.length - a.length);
-  // One pass prevents replacement markers being reprocessed as secrets.
-  const pattern = secrets.length ? new RegExp(secrets.map(s => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|'), 'g') : null;
-  const sanitize = text => pattern ? text.replace(pattern, '[REDACTED]') : text;
+  const secrets = [...new Set(redact)];
   const maxSecret = Math.max(0, ...secrets.map(s => Buffer.byteLength(s)));
   const captureLimit = maxOutputBytes + maxSecret;
   function capture() {

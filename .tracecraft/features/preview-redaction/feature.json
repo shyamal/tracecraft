@@ -1,0 +1,82 @@
+{
+  "schemaVersion": 2,
+  "id": "preview-redaction",
+  "title": "Consistent literal redaction in command previews and execution",
+  "requirements": [
+    {
+      "id": "REQ-001",
+      "statement": "Preview and execution sanitize the same literal values consistently without leaking the suffix of an overlapping configured literal.",
+      "sources": [
+        {
+          "kind": "repository",
+          "reference": "src/verify.mjs uses sequential replacement while src/runner.mjs uses longest-first one-pass replacement; regression reproduced with synthetic alpha/alpha-beta."
+        }
+      ],
+      "acceptance": [
+        {
+          "id": "AC-001",
+          "statement": "Both orders of alpha and alpha-beta fully replace the argv value alpha-beta, and preview argv equals the recorded execution argv."
+        },
+        {
+          "id": "AC-002",
+          "statement": "A configured REDACTED literal does not reprocess a generated [REDACTED] marker."
+        },
+        {
+          "id": "AC-003",
+          "statement": "Literal regex metacharacters are escaped and existing bounded streaming redaction behavior remains valid."
+        }
+      ]
+    }
+  ],
+  "assumptions": [],
+  "decisions": [
+    {
+      "id": "ADR-001",
+      "summary": "Extract the existing runner one-pass literal redactor for shared preview/execution use.",
+      "requirementIds": [
+        "REQ-001"
+      ]
+    }
+  ],
+  "tasks": [
+    {
+      "id": "TASK-001",
+      "summary": "Share literal redaction between preview and runner and add regressions.",
+      "requirementIds": [
+        "REQ-001"
+      ],
+      "dependsOn": [
+        "ADR-001"
+      ]
+    }
+  ],
+  "tests": [
+    {
+      "id": "TEST-001",
+      "summary": "CLI preview/execution overlap and replacement-marker regression tests.",
+      "requirementIds": [
+        "REQ-001"
+      ],
+      "criterionIds": [
+        "AC-001",
+        "AC-002"
+      ],
+      "dependsOn": [
+        "TASK-001"
+      ]
+    },
+    {
+      "id": "TEST-002",
+      "summary": "Shared redactor metacharacter/limit tests and existing streaming runner tests.",
+      "requirementIds": [
+        "REQ-001"
+      ],
+      "criterionIds": [
+        "AC-003"
+      ],
+      "dependsOn": [
+        "TASK-001"
+      ]
+    }
+  ]
+}

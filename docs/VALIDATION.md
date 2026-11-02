@@ -124,3 +124,8 @@ Local macOS validation on 2 November 2026: 104 tests passed, zero failed, with o
 ## CLI help and first real-project feature pilot
 
 Local macOS validation on 2 November 2026: 106 tests passed, zero failed, with one Windows-only runner test skipped (107 total). The new focused tests cover help aliases, command discovery, invalid extras and empty-directory read-only behavior. The same-assistant pilot retained a review finding, observed old receipts become stale after its fix, then generated final bound receipts, a passing evidence aggregate/readiness record and a bounded review packet. See evals/cli-help-pilot.md for measured results, replay instructions and limitations. No independent review or second-project validation is claimed.
+
+
+## Preview redaction bug-fix pilot
+
+Local macOS validation on 2 November 2026: 110 tests passed, zero failed, with one Windows-only runner test skipped (111 total). Two new CLI assertions failed before repair (partial longer-literal replacement and recursive marker rewriting), then passed after preview and runner shared the literal redactor. Focused validation passed 22 tests with one Windows-only skip. Final bound verify receipts, evidence aggregation and declared readiness passed in the isolated pilot copy. See evals/preview-redaction-pilot.md for observations and reproduction limits; no independent review or security certification is claimed.

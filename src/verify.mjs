@@ -1,3 +1,4 @@
+import { createLiteralRedactor } from './redaction.mjs';
 import { createHash } from 'node:crypto';
 import { fingerprintInputs } from './fingerprint.mjs';
 import Ajv2020 from 'ajv/dist/2020.js';
@@ -70,7 +71,7 @@ export async function verifyFeature(file, { project, commandId, receipt, signal,
     binding = { featurePath: local(featurePath), configPath: local(configPath), commandId, before, after: null, state: 'unavailable', errorCode: 'NOT_RECHECKED' };
   }
   if (dryRun) {
-    const sanitized = text => (command.redact ?? []).reduce((value, secret) => value.split(secret).join('[REDACTED]'), text);
+    const sanitized = createLiteralRedactor(command.redact);
     return { dryRun: true, scope: 'execution-preview', commandId, argv: command.argv.map(sanitized), cwd: sanitized(cwd),
       envKeys: Object.keys(command.env ?? {}), receipt: destination,
       inputs: binding ? { paths: binding.before.paths, exclude: binding.before.exclude, digest: binding.before.digest } : null,

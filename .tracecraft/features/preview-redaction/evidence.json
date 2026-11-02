@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "feature": ".tracecraft/features/preview-redaction/feature.json",
+  "checks": [
+    {
+      "commandId": "redaction",
+      "testIds": [
+        "TEST-001",
+        "TEST-002"
+      ],
+      "receipt": ".tracecraft/local/redaction/focused.json"
+    },
+    {
+      "commandId": "regression",
+      "testIds": [
+        "TEST-001",
+        "TEST-002"
+      ],
+      "receipt": ".tracecraft/local/redaction/full.json"
+    }
+  ]
+}

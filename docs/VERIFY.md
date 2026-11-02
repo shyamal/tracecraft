@@ -24,7 +24,7 @@ Create `.tracecraft/config.json` in your application with schema version 1. For 
 
 Command IDs are lowercase names containing letters, digits or hyphens, starting with a letter. Only `argv` is required per command. `cwd` defaults to the project root and must resolve within it, including through symlinks. Configuration must also resolve inside the project. Unknown fields and versions are rejected; commands are never read from feature prose. Config input is limited to 64 KiB and feature input to 1 MiB.
 
-Inspect the command and any scripts it invokes before running it. Explicit argv avoids implicit shell interpolation but does not make executables safe. Existing host permissions apply. Environment values are explicit; none are inherited automatically. Use an absolute executable path, and supply PATH only when child tools need it. Avoid storing secrets in tracked configuration. `redact` accepts up to 100 nonempty literals of at most 1024 characters; it does not detect unknown or encoded secrets.
+Inspect the command and any scripts it invokes before running it. Explicit argv avoids implicit shell interpolation but does not make executables safe. Existing host permissions apply. Environment values are explicit; none are inherited automatically. Use an absolute executable path, and supply PATH only when child tools need it. Avoid storing secrets in tracked configuration. `redact` accepts up to 100 nonempty literals of at most 1024 characters; matching uses the same longest-first, single-pass literal replacement as execution. Generated replacement markers are not processed again. It does not detect unknown or encoded secrets.
 
 ## Preview, then execute
 
