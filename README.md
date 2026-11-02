@@ -20,6 +20,7 @@ This is a working **0.1.0 prototype**, not the complete MVP. It contains seven w
 - [Check whether a receipt is still current](docs/STATUS.md)
 - [Aggregate required checks for a feature](docs/EVIDENCE.md)
 - [Evaluate planning, execution and declared review readiness](docs/READINESS.md)
+- [Export a bounded review packet](docs/REVIEW-PACKET.md)
 - [Feature schema v2 and safe migration](docs/SCHEMA.md)
 - [Phased MVP and repository implementation backlog](docs/ROADMAP.md)
 - [Research sources and inspection limits](docs/SOURCES.md)
@@ -151,6 +152,7 @@ Use `skills/tc-impact/SKILL.md` with a feature contract, changed node ID and pro
 | Context | Bounded planning packets, source hashes and explicit omissions | Task-specific filtering |
 | Change impact | Transitive dependencies from the declared contract | — |
 | Verification | Configured POSIX checks, dry-run previews and versioned receipts | Real-project readiness pilots |
+| Review handoff | Bounded planning, diff and evidence packet with hashes and omissions | Real-project review pilots |
 | Readiness | Separate planning, execution and declared-review gates | Real-project pilots and review-quality evaluation |
 | Feature evidence | Explicit required checks, receipt matching and missing/stale summaries | Independent assertion/review evaluation |
 | Input fingerprints | Selected-file SHA-256, evidence exclusions and receipt status checks | Real-project readiness pilots |

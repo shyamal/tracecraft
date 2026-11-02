@@ -114,3 +114,8 @@ Local macOS validation on 2 November 2026: 93 tests passed, zero failed, with on
 ## Declared readiness gates
 
 Local macOS validation on 2 November 2026: 100 tests passed, zero failed, with one Windows-only runner test skipped (101 total). Policy tests cover separated gates, missing review, unresolved findings, partial coverage, cross-feature records, stale reports/receipts, omitted input scope, malformed records, stale execution, read-only behavior and exit codes. Review fixtures are synthetic declarations, not evidence of an independently performed review. Readiness checks do not authenticate reviewers, verify assertion quality or approve releases.
+
+
+## Bounded review packets
+
+Local macOS validation on 2 November 2026: 104 tests passed, zero failed, with one Windows-only runner test skipped (105 total). Packet tests cover deterministic read-only export, explicit evidence gaps, UTF-8 byte budgets, whole-document omissions, required-diff overflow, untrusted/empty diff text, traversal, invalid UTF-8 and strict CLI options. Export success does not establish a correct diff scope, adequate review coverage or performed review.
