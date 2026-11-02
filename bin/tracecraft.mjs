@@ -3,6 +3,7 @@ import { readFile, writeFile } from 'node:fs/promises';
 import { draft, impact, validate, stages } from '../src/contract.mjs';
 import { createContext, contextStages, defaultContextBytes } from '../src/context.mjs';
 import { doctor } from '../src/doctor.mjs';
+import { featureReadiness } from '../src/policy.mjs';
 import { featureEvidence } from '../src/evidence.mjs';
 import { receiptStatus } from '../src/status.mjs';
 import { verifyFeature } from '../src/verify.mjs';
@@ -10,16 +11,27 @@ import { migrateV1 } from '../src/migrate.mjs';
 
 const emit = value => process.stdout.write(`${JSON.stringify(value, null, 2)}\n`);
 const [command, file, extra, ...rest] = process.argv.slice(2);
-const usage = 'Usage: tracecraft new <file> <feature-id> | check <file> [--stage specify|architect|plan] | impact <file> <node-id> | context <file> --stage <specify|architect|plan|implement|test|review> [--max-bytes <2048..1048576>] | doctor [--project <directory>] | migrate <v1-file> <new-v2-file> | verify <feature-file> --project <dir> --command-id <id> --receipt <new-file> [--dry-run] | status <receipt-file> --project <dir> | evidence <manifest-file> --project <dir>';
+const usage = 'Usage: tracecraft new <file> <feature-id> | check <file> [--stage specify|architect|plan] | impact <file> <node-id> | context <file> --stage <specify|architect|plan|implement|test|review> [--max-bytes <2048..1048576>] | doctor [--project <directory>] | migrate <v1-file> <new-v2-file> | verify <feature-file> --project <dir> --command-id <id> --receipt <new-file> [--dry-run] | status <receipt-file> --project <dir> | evidence <manifest-file> --project <dir> | readiness <manifest-file> --project <dir> [--review <project-relative-file>]';
 
 try {
   let stage = 'plan';
-  let contextOptions, verifyOptions;
-  if (!['new', 'check', 'impact', 'context', 'doctor', 'migrate', 'verify', 'status', 'evidence'].includes(command)) throw new Error(usage);
+  let contextOptions, verifyOptions, readinessOptions;
+  if (!['new', 'check', 'impact', 'context', 'doctor', 'migrate', 'verify', 'status', 'evidence', 'readiness'].includes(command)) throw new Error(usage);
   if (command === 'doctor') {
     if (file !== undefined && (file !== '--project' || !extra || extra.startsWith('--') || rest.length)) throw new Error(usage);
   } else if (!file) throw new Error(usage);
-  if (command === 'status' || command === 'evidence') {
+  if (command === 'readiness') {
+    readinessOptions = {};
+    const args = extra === undefined ? [] : [extra, ...rest];
+    for (let i = 0; i < args.length; i += 2) {
+      const option = args[i], value = args[i + 1];
+      if (!['--project', '--review'].includes(option) || !value || value.startsWith('--')) throw new Error(usage);
+      const key = option.slice(2);
+      if (Object.hasOwn(readinessOptions, key)) throw new Error(usage);
+      readinessOptions[key] = value;
+    }
+    if (!readinessOptions.project) throw new Error(usage);
+  } else if (command === 'status' || command === 'evidence') {
     if (extra !== '--project' || rest.length !== 1 || !rest[0] || rest[0].startsWith('--')) throw new Error(usage);
   } else if (command === 'verify') {
     verifyOptions = {};
@@ -56,7 +68,10 @@ try {
       stage = rest[0];
     }
   } else if (command !== 'doctor' && (!extra || rest.length)) throw new Error(usage);
-  if (command === 'status' || command === 'evidence') {
+  if (command === 'readiness') {
+    const report = await featureReadiness(file, readinessOptions);
+    emit(report); process.exitCode = report.ok ? 0 : 1;
+  } else if (command === 'status' || command === 'evidence') {
     const report = await (command === 'status' ? receiptStatus : featureEvidence)(file, { project: rest[0] });
     emit(report); process.exitCode = report.ok ? 0 : 1;
   } else if (command === 'verify') {

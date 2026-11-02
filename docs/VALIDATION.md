@@ -109,3 +109,8 @@ Local macOS validation on 2 November 2026: 85 tests passed, zero failed, with on
 ## Feature evidence aggregation
 
 Local macOS validation on 2 November 2026: 93 tests passed, zero failed, with one Windows-only runner test skipped (94 total). Aggregation checks cover complete explicit mappings, missing receipts, failed/stale/mismatched/cross-feature/legacy/invalid receipts, unknown or duplicate commands, uncovered/unknown tests, traversal, malformed contracts, exit codes and no writes. A real verify-to-aggregate integration test becomes stale after a later selected-source edit. These checks validate declared evidence aggregation, not actual assertion coverage, receipt authenticity or review readiness.
+
+
+## Declared readiness gates
+
+Local macOS validation on 2 November 2026: 100 tests passed, zero failed, with one Windows-only runner test skipped (101 total). Policy tests cover separated gates, missing review, unresolved findings, partial coverage, cross-feature records, stale reports/receipts, omitted input scope, malformed records, stale execution, read-only behavior and exit codes. Review fixtures are synthetic declarations, not evidence of an independently performed review. Readiness checks do not authenticate reviewers, verify assertion quality or approve releases.
