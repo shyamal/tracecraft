@@ -119,3 +119,8 @@ Local macOS validation on 2 November 2026: 100 tests passed, zero failed, with o
 ## Bounded review packets
 
 Local macOS validation on 2 November 2026: 104 tests passed, zero failed, with one Windows-only runner test skipped (105 total). Packet tests cover deterministic read-only export, explicit evidence gaps, UTF-8 byte budgets, whole-document omissions, required-diff overflow, untrusted/empty diff text, traversal, invalid UTF-8 and strict CLI options. Export success does not establish a correct diff scope, adequate review coverage or performed review.
+
+
+## CLI help and first real-project feature pilot
+
+Local macOS validation on 2 November 2026: 106 tests passed, zero failed, with one Windows-only runner test skipped (107 total). The new focused tests cover help aliases, command discovery, invalid extras and empty-directory read-only behavior. The same-assistant pilot retained a review finding, observed old receipts become stale after its fix, then generated final bound receipts, a passing evidence aggregate/readiness record and a bounded review packet. See evals/cli-help-pilot.md for measured results, replay instructions and limitations. No independent review or second-project validation is claimed.

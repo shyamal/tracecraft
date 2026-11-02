@@ -1,12 +1,12 @@
 # Tracecraft contracts and shared handoff rules
 
-Read this when creating or editing feature artifacts. The CLI supports v1 and v2. Use v2 for new features; preserve the version of existing features unless migration is requested or necessary and explained. Keep richer rationale in companion Markdown; there is no execution or approval schema yet. The shape schemas are bundled in the toolkit's schemas directory; install the validator dependency with `npm ci --ignore-scripts` before running the CLI from a checkout.
+Read this when creating or editing feature artifacts. The CLI supports v1 and v2. Use v2 for new features; preserve the version of existing features unless migration is requested or necessary and explained. Keep richer rationale in companion Markdown; execution receipt and declared-review schemas are separate from feature contracts; none grants approval. The shape schemas are bundled in the toolkit's schemas directory; install the validator dependency with `npm ci --ignore-scripts` before running the CLI from a checkout.
 
 ## Location and ownership
 
 Use the user's selected project and feature path. Otherwise use `<project>/.tracecraft/features/<feature-id>/` with `feature.json` and companion documents. Resolve the project explicitly when multiple checkouts are available. Feature IDs are lowercase words separated by hyphens; node IDs use `REQ-`, `ADR-`, `TASK-` or `TEST-` plus at least three digits.
 
-Read existing files before changing them. Preserve stable IDs and unrelated content. Never renumber nodes to fill gaps, silently remove requirements to make validation pass, or replace downstream work with empty arrays. For an upstream change, identify affected downstream nodes and record needed reconsideration in the companion document. Deletion requires resolving incoming references. There is no automated freshness enforcement yet.
+Read existing files before changing them. Preserve stable IDs and unrelated content. Never renumber nodes to fill gaps, silently remove requirements to make validation pass, or replace downstream work with empty arrays. For an upstream change, identify affected downstream nodes and record needed reconsideration in the companion document. Deletion requires resolving incoming references. Use status/evidence/readiness for their documented input-freshness and declared-policy checks; these do not prove semantic correctness.
 
 ## JSON shape
 

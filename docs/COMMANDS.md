@@ -4,6 +4,7 @@
 
 | Command | Inputs | Output / effects | Failure |
 |---|---|---|---|
+| `tracecraft help` / `--help` / `-h` | No extra arguments | JSON usage and implemented command names; no workflow execution | Extra arguments: exit 2 |
 | `tracecraft new <file> <feature-id>` | Explicit new file path; lowercase hyphenated ID | Draft v2 JSON, exclusive create; parent must already exist | Existing file, invalid ID or I/O: exit 2 |
 | `tracecraft check <file> [--stage specify\|architect\|plan]` | Feature JSON; default stage is plan | Read-only `{ok, scope, stage, diagnostics}` | Invalid contract: exit 1; parse/I/O/usage: exit 2 |
 | `tracecraft impact <file> <node-id>` | Structurally valid feature; existing node ID | Read-only `{changed, affected}` with sorted transitive IDs | Invalid contract: exit 1; unknown ID: exit 2 |
