@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "feature": ".tracecraft/features/cli-help/feature.json",
+  "checks": [
+    {
+      "commandId": "help",
+      "testIds": [
+        "TEST-001"
+      ],
+      "receipt": ".tracecraft/local/pilot/help-final.json"
+    },
+    {
+      "commandId": "regression",
+      "testIds": [
+        "TEST-001"
+      ],
+      "receipt": ".tracecraft/local/pilot/regression-final.json"
+    }
+  ]
+}

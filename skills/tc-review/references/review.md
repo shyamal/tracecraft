@@ -27,7 +27,7 @@ Read before citing a line. A finding should point to a small relevant location i
 
 Inspect test assertions and report inputs. An execution log can show that a command ran, but cannot by itself establish criterion coverage. A passing suite can omit the defective boundary. Zero-test runs, skipped cases, failed infrastructure, incomplete commands and stale reports are not passing behavior evidence.
 
-Changed requirements, production code or test definitions may invalidate a previous result. Check available hashes/revisions and inspect relevant differences. If exact freshness cannot be established, disclose it and request/recommend a targeted recheck; no automatic freshness mechanism exists yet. Keep code findings and evidence gaps separate.
+Changed requirements, production code or test definitions may invalidate a previous result. Check available hashes/revisions and inspect relevant differences. If exact freshness cannot be established, disclose it and request/recommend a targeted recheck; status checks selected-input freshness and readiness checks declared review bindings, but neither authenticates evidence or proves review quality. Keep code findings and evidence gaps separate.
 
 Tests/scripts can mutate a checkout or external state. Inspect them and use scratch reproductions or an appropriate isolated copy for reviewer-run checks. Do not replace or modify tracked code/tests as part of a review-only invocation. Do not weaken assertions or extend the review into an unrelated repair.
 

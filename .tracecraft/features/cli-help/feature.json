@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 2,
+  "id": "cli-help",
+  "title": "Discover Tracecraft CLI commands without running a workflow",
+  "requirements": [
+    {
+      "id": "REQ-001",
+      "statement": "Users can discover CLI syntax through explicit read-only help.",
+      "acceptance": [
+        {
+          "id": "AC-001",
+          "statement": "help, --help and -h each exit zero with equivalent JSON containing usage and all implemented command names."
+        },
+        {
+          "id": "AC-002",
+          "statement": "Help with extra arguments is rejected with exit 2; an unknown command remains an error."
+        },
+        {
+          "id": "AC-003",
+          "statement": "Help works from an empty directory and creates no files or project configuration."
+        }
+      ],
+      "sources": [
+        {
+          "kind": "repository",
+          "reference": "bin/tracecraft.mjs currently exposes usage only through input errors; README describes source-checkout invocation."
+        }
+      ]
+    }
+  ],
+  "assumptions": [],
+  "decisions": [
+    {
+      "id": "ADR-001",
+      "summary": "Reuse JSON CLI output and one shared implemented-command list; handle help before workflow parsing.",
+      "requirementIds": [
+        "REQ-001"
+      ]
+    }
+  ],
+  "tasks": [
+    {
+      "id": "TASK-001",
+      "summary": "Add explicit help aliases and integration checks without running workflows.",
+      "requirementIds": [
+        "REQ-001"
+      ],
+      "dependsOn": [
+        "ADR-001"
+      ]
+    }
+  ],
+  "tests": [
+    {
+      "id": "TEST-001",
+      "summary": "CLI integration assertions for aliases, invalid arguments and empty-directory read-only behavior.",
+      "requirementIds": [
+        "REQ-001"
+      ],
+      "dependsOn": [
+        "TASK-001"
+      ],
+      "criterionIds": [
+        "AC-001",
+        "AC-002",
+        "AC-003"
+      ]
+    }
+  ]
+}
