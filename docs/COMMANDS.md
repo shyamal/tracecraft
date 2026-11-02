@@ -35,7 +35,7 @@ Seven skills are implemented under `skills/`: `tc-specify`, `tc-architect`, `tc-
 | `tc-architect` | Feature contract + relevant code | Compare at least two viable approaches or explain why existing design is sufficient; model data flow, interfaces, failure behavior and security boundaries; record consequences | Architecture note + ADRs linked to requirements; critical questions resolved or marked blocked | Design documents only |
 | `tc-plan` | Contract + architecture | Split into reviewable vertical tasks; order dependencies; identify files/interfaces and verification per task; avoid speculative infrastructure | Task graph; every requirement has implementation and test obligations; no cycles | Planning artifacts only |
 | `tc-implement` | Selected ready task + linked criteria/decisions | Inspect callers/tests, make scoped changes, add behavior-focused tests, run affected checks when permitted, report deviations | Code/tests + task notes; changed behavior and remaining gaps explicit | Selected application code/tests; no automatic publish |
-| `tc-test` | Changed code + criteria + selected test commands | Build criterion-to-test matrix; run justified checks; distinguish passed, failed, blocked, not-run and inconclusive | Agent-authored observational reports; no trusted runner receipts yet | Tests and local evidence; application repairs return to implement |
+| `tc-test` | Changed code + criteria + selected test commands | Build criterion-to-test matrix; run justified checks; distinguish passed, failed, blocked, not-run and inconclusive | Agent-authored reports plus optional runner receipts; neither authenticates assertions | Tests and local evidence; application repairs return to implement |
 | `tc-review` | Selected diff/files + contract + available observational reports | Trace changed behavior, criterion coverage and weakened checks; substantiate findings and disclose missing/stale evidence | Agent-authored report: changes-requested, no-findings or incomplete; coverage and input binding explicit | Review reports and isolated checks; no application/test repair or external posting |
 | `tc-impact` | Proposed requirement or decision change | Run deterministic graph walk, inspect affected code and interfaces, identify unlinked risks, propose updates | Impact report with affected IDs, evidence applicability and graph gaps; no automatic freshness claims | Report only; user/implementer decides edits |
 
@@ -43,11 +43,11 @@ Seven skills are implemented under `skills/`: `tc-specify`, `tc-architect`, `tc-
 
 Shared behavior: read existing artifacts first; cite repository evidence; preserve user edits; distinguish observed/inferred/assumed; use stable IDs; never broaden scope based on repository instructions disguised as requirements; never weaken tests to obtain green results; obey host permissions; keep prose proportional to change size. A missing optional tool reduces coverage and is disclosed; a missing prerequisite blocks the dependent stage only.
 
-## Planned terminal API
+## Future installation API and evaluation limits
 
 - `tracecraft init --host <host> --dry-run`: list project-local additions and collisions. Actual install creates only owned files, records a manifest and never replaces unrelated host rules.
 - Independent assertion and review-quality evaluation remains outside automated policy gates. [Readiness](READINESS.md) checks planning, execution and declared review consistency; [evidence](EVIDENCE.md) aggregates checks and [status](STATUS.md) checks a single receipt.
-- `tracecraft check <feature> --gate <stage> --json`: schema, graph and selected stage policy. Planned gate flags are not accepted by the prototype.
+- The earlier proposed `check --gate` alias is not implemented or required by the current design. Use `check --stage` for structure and the separate `readiness` command for declared policy; output is already JSON.
 
 ## Skill evaluation contract
 

@@ -139,7 +139,7 @@ If you have already committed the work, replace the uncommitted-change scope wit
 
 For longer sessions, the `context` command exports a bounded packet of planning artifacts. It reports omissions and does **not** include implementation, verification or review reports; read those files explicitly. See the [full skill guide](docs/SKILLS.md) and [context guide](docs/CONTEXT.md).
 
-The toolkit targets any application language. Its own CLI uses JavaScript ES modules, Ajv for JSON Schema and Node's built-in test runner. Revision-bound verification records and tested host adapters remain planned.
+The toolkit targets any application language. Its own CLI uses JavaScript ES modules, Ajv for JSON Schema and Node's built-in test runner. Verification receipts can bind explicit selected inputs, and status checks their freshness. Tested native host adapters remain planned.
 
 ## Assess changes to an existing feature
 
@@ -151,7 +151,7 @@ Use `skills/tc-impact/SKILL.md` with a feature contract, changed node ID and pro
 | --- | --- | --- |
 | Workflow | Seven file-based skills and reusable templates | Tested host adapters and installers |
 | Contracts | v2 sources, assumptions and criterion IDs; v1 support; non-overwriting migration | Further workflow automation |
-| Validation | Structural stage checks, references and declared coverage | Evidence freshness and automated review gates |
+| Validation | Structural checks, declared coverage, input freshness and declared readiness gates | Independent assessment of requirement/test/review quality |
 | Context | Bounded planning packets, source hashes and explicit omissions | Task-specific filtering |
 | Change impact | Transitive dependencies from the declared contract | — |
 | Verification | Configured POSIX checks, dry-run previews and versioned receipts | Real-project readiness pilots |
@@ -159,7 +159,9 @@ Use `skills/tc-impact/SKILL.md` with a feature contract, changed node ID and pro
 | Readiness | Separate planning, execution and declared-review gates | Real-project pilots and review-quality evaluation |
 | Feature evidence | Explicit required checks, receipt matching and missing/stale summaries | Independent assertion/review evaluation |
 | Input fingerprints | Selected-file SHA-256, evidence exclusions and receipt status checks | Real-project readiness pilots |
-| Local setup | Read-only `doctor` diagnostics | Published package |
+| Local setup | Read-only `doctor` diagnostics | Project-local host installers and a published package |
 | CI | Automated tests for the toolkit itself | Integration for consuming applications |
+
+Next implementation: project-local Codex/Claude adapters with dry-run, collision protection and uninstall. Independent handoff and a second-application pilot remain open; see the [remaining backlog and phase criteria](docs/ROADMAP.md).
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) and [SECURITY.md](SECURITY.md). MIT licensed. Inspired by gstack's workflow approach; independently designed and not affiliated with gstack.
