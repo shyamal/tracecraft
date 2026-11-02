@@ -129,3 +129,8 @@ Local macOS validation on 2 November 2026: 106 tests passed, zero failed, with o
 ## Preview redaction bug-fix pilot
 
 Local macOS validation on 2 November 2026: 110 tests passed, zero failed, with one Windows-only runner test skipped (111 total). Two new CLI assertions failed before repair (partial longer-literal replacement and recursive marker rewriting), then passed after preview and runner shared the literal redactor. Focused validation passed 22 tests with one Windows-only skip. Final bound verify receipts, evidence aggregation and declared readiness passed in the isolated pilot copy. See evals/preview-redaction-pilot.md for observations and reproduction limits; no independent review or security certification is claimed.
+
+
+## Roadmap reconciliation
+
+On 2 November 2026, PR #19 was confirmed merged and its toolkit test matrix passed on Ubuntu, macOS and Windows with Node 24 and 26 ([CI run](https://github.com/shyamal/tracecraft/actions/runs/41393015513)). This is observed CI evidence for that code revision, not native host certification or Windows runner support. The roadmap now separates delivered implementation from independent handoff, second-project, host installation and release acceptance. This documentation-only update checks local links and whitespace; it does not rerun application tests.

@@ -1,67 +1,85 @@
-# Phased MVP and repository plan
+# Roadmap and delivery status
 
-Estimates assume one developer familiar with JavaScript and AI coding tools, working focused days. They are planning ranges, not delivery promises.
+Status checked on 2 November 2026 through [PR #19](https://github.com/shyamal/tracecraft/pull/19), which is merged. Tracecraft is a working source-checkout prototype. Public beta acceptance is still open; implemented policy gates do not establish independent review, host certification or release approval.
 
-| Phase | Scope | Exit criteria | Estimate |
-|---|---|---|---|
-| 0 — seed (this delivery) | Concept, specs, graph validator, impact CLI, fixture and tests | Run local checks and demonstrate transitive impact; clearly label unavailable capabilities | Delivered as prototype |
-| 1 — usable personal alpha | JSON Schema, richer requirement/ADR/task templates, five core skill files, manual host use, `context` and `doctor` | Complete one real feature and one bug fix; independent reader can resume work | 4–7 days |
-| 2 — evidence MVP | Safe command runner, receipts, input hashes, freshness, stage gates, review packet | Mutated requirement/code/test invalidates affected evidence; failed/blocked checks never pass; workflow succeeds in two real projects | 5–8 days |
-| 3 — public beta | Codex/Claude adapters, installer dry-run/uninstall, CI consuming-project example, docs, license/release checks | Clean checkout on macOS/Linux/Windows; two hosts complete workflow; pilot benchmark published | 4–7 days |
-| 4 — after feedback | Precise impact, stack recipes, issue/PR integrations, optional browser checks | Add only capabilities shown to improve pilot outcomes | Demand driven |
+## Delivered implementation
 
-Public MVP = phases 1–3. Do not position phase 0 as an autonomous engineering agent.
+| Area | Available now | Reference |
+| --- | --- | --- |
+| Requirements and planning | Feature schemas v1/v2, criterion IDs, sources, assumptions, structural stage checks and non-overwriting migration | [Schemas](SCHEMA.md) |
+| Assistant workflow | Seven canonical skills with templates: specify, architect, plan, implement, test, review and impact | [Skill usage](SKILLS.md) |
+| Local tools | JSON help, feature creation, impact analysis and read-only setup diagnostics | [Commands](COMMANDS.md), [doctor](DOCTOR.md) |
+| Context | Bounded planning exports with source hashes and explicit omissions | [Context](CONTEXT.md) |
+| Execution | Explicit configured argv, preview, bounded/redacted output, timeout and cancellation on POSIX | [Verify](VERIFY.md), [runner](RUNNER.md) |
+| Execution records | Non-overwriting receipt storage, v1 compatibility and optional v2 before/after input binding | [Receipts](RECEIPTS.md) |
+| Input freshness | Explicit file/directory fingerprints and read-only per-receipt current/stale checks | [Fingerprints](FINGERPRINTS.md), [status](STATUS.md) |
+| Feature evidence | Explicit required-command/test mappings with missing, unusable and stale receipt reporting | [Evidence](EVIDENCE.md) |
+| Declared readiness | Separate planning, execution and fingerprint-bound declared-review policy checks | [Readiness](READINESS.md) |
+| Review handoff | Bounded planning, selected diff and evidence packets with hashes and omission warnings | [Review packets](REVIEW-PACKET.md) |
 
-Current progress: seven skills and templates, stage checks, bounded context exports, local doctor diagnostics and v1/v2 JSON Schema validation with non-overwriting migration are implemented. V2 adds stable criteria, sources and assumptions. The first same-assistant real-project feature pilot added CLI help to Tracecraft and exercised verification, stale evidence, review and readiness; see [pilot observations](../evals/cli-help-pilot.md). A separate same-assistant [bug-fix pilot](../evals/preview-redaction-pilot.md) corrected overlapping-literal preview redaction with observed failing regressions. An independent reader/reviewer and second application remain outstanding. Neither this pilot nor earlier synthetic exercises certify host integration. An experimental POSIX execution primitive now supports explicit argv, bounded/redacted output, timeout and cancellation; see [runner limits](RUNNER.md). Versioned [receipt storage](RECEIPTS.md) now preserves observations without overwriting earlier files. The verify CLI now selects configured commands with dry-run previews and persists observations. Selected-input [fingerprinting](FINGERPRINTS.md) now detects on-disk changes within explicit scope. Verify now optionally binds receipts to before/after selected-input fingerprints. Read-only receipt status now reports selected-input freshness separately from execution outcomes. The evidence command aggregates explicitly required checks and matching receipts, with structural and mapping diagnostics. The readiness command now evaluates separate planning, execution and fingerprint-bound declared-review gates. Bounded review packets now combine selected planning context, diff text and evidence summaries with explicit omissions. Real-project workflow/review pilots, Windows runner support and native host installation remain outstanding. See [schema and migration](SCHEMA.md), [skill usage](SKILLS.md), [context export](CONTEXT.md) and [setup diagnostics](DOCTOR.md).
+Receipts and review records are unsigned. Test mappings are declarations, not proof of executed assertions. Fingerprint scope is explicit and snapshots are not atomic. Windows planning/status tools are covered by CI, but runner/verify execution remains unsupported there.
 
-## Current repository
+## Validation completed and still open
 
-```text
-tracecraft/
-  README.md
-  LICENSE
-  CONTRIBUTING.md
-  SECURITY.md
-  package.json                  # private until release readiness
-  bin/tracecraft.mjs             # argument and filesystem boundary
-  src/contract.mjs               # pure graph/validation functions
-  test/contract.test.mjs         # behavior and CLI failure cases
-  examples/invite-member.json    # fictional contract, no run claims
-  docs/DESIGN.md
-  docs/COMMANDS.md
-  docs/ROADMAP.md
-  docs/SOURCES.md
-  .github/workflows/test.yml     # toolkit tests, not product verification
-```
+| Milestone | Evidence | Remaining acceptance |
+| --- | --- | --- |
+| Real feature in Tracecraft | [CLI-help pilot](../evals/cli-help-pilot.md): observed failing test, implementation, review finding, stale receipt and re-verification | Independent reader/reviewer and another application |
+| Real bug fix in Tracecraft | [Preview-redaction pilot](../evals/preview-redaction-pilot.md): two observed regression failures, shared redactor fix and fresh verification | Independent review and another application |
+| Automated toolkit checks | PR #19 passed the [Node 24/26 CI matrix](https://github.com/shyamal/tracecraft/actions/runs/41393015513) on Linux, macOS and Windows; local macOS run: 110 passed, one Windows-only skip | This does not test native assistant installation or unsupported Windows execution |
+| Skill workflow | Same-assistant pilots and documented scenario cards | Host/model/version records, independent handoff, comparative baseline and measured costs |
 
-## Add in implementation order
+The two real changes above were in the same project and completed by the same assistant. They do not satisfy the two-project or independent-reader criteria. Earlier synthetic exercises remain useful scenarios, not additional real-project pilots.
 
-1. **Schema and migration PR** — `schemas/feature.schema.json`, `schemas/receipt.schema.json`, `src/schema.mjs`, `test/fixtures/invalid/`. Add criterion IDs, assumptions and sources. Unknown versions fail closed. Keep graph checks separate from shape checks. Acceptance: malformed/duplicate/orphan/cyclic fixtures fail, valid fixtures survive a save/load cycle.
-2. **Artifact and context PR** — `templates/{brief,architecture,adr,review}.md`, `src/context.mjs`. Stable selection by stage and linked IDs. Acceptance: no unrelated client/project context included; missing files and truncation are explicit.
-3. **Skill PR** — `skills/tc-{specify,architect,plan,implement,test,review,impact}/SKILL.md`, `evals/scenarios/`, `evals/rubric.md`. Acceptance: at least one manual end-to-end run and benchmark baseline; no host certification implied by prompt syntax.
-4. **Execution PR** — `src/runner.mjs`, `src/receipts.mjs`. Selected argv commands, timeouts, bounded/redacted logs, failure receipts, controlled cwd, cancellation and child-process cleanup. Acceptance: exit-zero, exit-nonzero, timeout, missing executable and hostile argv tests; no commands derived from arbitrary prose.
-5. **Freshness and gates PR** — `src/fingerprint.mjs`, `src/policy.mjs`, `src/status.mjs`. Hash source/config/contract; retain history; distinguish self-report from observed execution. Acceptance: dirty worktree and changed tests invalidate evidence; changing receipt files alone does not.
-6. **Host adapters PR** — `adapters/{codex,claude}/`, `src/install.mjs`. Render capability metadata from canonical skills; collision detection; owned-file manifest; dry-run and uninstall. Acceptance: idempotent installation, no global overwrites, no hidden hooks, real workflow on each host.
-7. **Distribution PR** — package name validation, explicit author/maintainer identity, lockfile if dependencies added, exact release tags, changelog, npm pack smoke test and clean-install guide. Remove `private: true` only for an intentional release. Acceptance: published tarball contents reviewed; install/run works without the source checkout.
+## Next implementation backlog
 
-Keep work in one package. Introduce `packages/core` and `packages/cli` only when another consumer needs independently versioned APIs. Host-specific integration should not leak into graph validation.
+1. **Project-local host adapters and installer.** Verify current Codex and Claude skill discovery, then render from canonical skills while preserving their shared references. Add dry-run, collision detection, an owned-file manifest and uninstall. Acceptance: repeat installation is idempotent; existing user files are preserved; uninstall removes only unchanged owned files; no global rules or hidden hooks; the installed tree has no broken references. Native workflow certification requires the separate trials below.
+2. **Independent handoff and second-application pilot.** Select an application and bounded feature/bug fix with its owner. Have an independent reader resume from persisted artifacts. Record host/model/runtime, actual commands, questions, failures and limits. Acceptance: requirements through review can be followed in two real projects, with current evidence and no unsupported readiness claims. Do not count another Tracecraft change as a second application.
+3. **Consumer CI example.** Add a reproducible example that installs a pinned toolkit revision, runs configured checks and evaluates evidence in a consuming project. Keep secrets/raw logs out of shared artifacts. Acceptance: a changed selected input produces stale evidence, failed checks cannot pass, and missing receipts fail visibly. Toolkit CI alone does not satisfy this item.
+4. **Windows execution support.** Implement and test process-tree cancellation, timeout and cleanup before enabling runner/verify. Acceptance: zero/nonzero exits, spawn failures, literal argv, bounded output, cancellation and child cleanup work on Windows; unsupported behavior is not silently treated as success.
+5. **Public release preparation.** Confirm package name and maintainer identity; establish vulnerability reporting; add a changelog and exact release tags; review archive contents and repeat clean-install smoke tests. Acceptance: documented installation works without the source checkout, native trials are recorded and release limitations are explicit. Keep `private: true` until an intentional publishing step.
 
-## Project adoption layout (planned)
+## Phase exit criteria
+
+| Phase | Implementation status | Exit criteria still open |
+| --- | --- | --- |
+| Seed prototype | Delivered | None for the original structural prototype |
+| Personal alpha | Core tools and skills implemented; same-assistant feature/bug pilots completed | Independent reader can resume the work |
+| Evidence MVP | Runner, receipts, input binding, freshness, aggregation, declared gates and review packets implemented | End-to-end evidence workflow validated in a second real project |
+| Public beta | License, source docs and toolkit CI exist | Host installers/trials, consumer CI example, Windows execution if advertised, packaging/release checks and published pilot results |
+| After feedback | Deferred | Prioritize only demonstrated needs |
+
+No phase completion is inferred from passing unit tests alone. Re-estimate remaining effort after host discovery and selection of the second application; earlier implementation estimates are no longer a useful delivery schedule.
+
+## Later improvements
+
+- Task-specific context filtering and finer change-impact analysis.
+- Stack recipes and issue/PR integration based on actual adoption needs.
+- A helper for structured review records that computes inputs without manufacturing review conclusions.
+- Optional browser checks and comparative workflow benchmarks after real use justifies them.
+
+Keep one package until another consumer needs independently versioned APIs. Keep host-specific integration out of graph validation. Automated concurrent writers, global memory, model routing and release automation remain outside the current scope.
+
+## Current adoption layout
 
 ```text
 consumer-project/
-  .tracecraft/config.json                 # version + chosen check commands
-  .tracecraft/features/<slug>/feature.json
-  .tracecraft/features/<slug>/brief.md
-  .tracecraft/features/<slug>/architecture.md
-  .tracecraft/features/<slug>/decisions/ADR-001.md
-  .tracecraft/features/<slug>/reviews/<id>.json
-  .tracecraft/features/<slug>/verification/<id>.json
-  .tracecraft/local/                      # ignored raw logs and temporary state
+  .tracecraft/config.json                     # explicit local check definitions
+  .tracecraft/features/<feature-id>/
+    feature.json
+    brief.md
+    architecture.md
+    decisions/ADR-001.md
+    plan.md
+    evidence.json                            # explicit check/receipt selections
+    implementation/TASK-001.md
+    verification/<run-id>.md                 # agent-authored observations
+    reviews/<review-id>.md                    # narrative assessment
+    reviews/<review-id>.json                  # optional declared readiness record
+  .tracecraft/local/                          # ignored local receipts/logs/packets
 ```
 
-Commit curated contracts, decisions and sanitized summaries. Avoid committing raw transcripts by default. Use stable feature IDs, not branch names, so artifacts survive rebases. Handle conflicts with Git and explicit resolution; never last-writer-wins shared JSON. Automated multi-writer support is deferred.
+Paths are selected by the user; this is a convention, not an automatically created tree. Keep receipts/review outputs out of execution input selections when appropriate and document exclusions. Commit curated contracts, decisions and sanitized summaries; avoid committing raw transcripts, local credentials or machine-specific configuration. The checked-in pilot manifests refer to local evidence that must be regenerated in another checkout.
 
-## First public demo
+## Public demonstration still to record
 
-Use a small invitation API fixture with an intentionally seeded authorization or expiry bug. Show: specify → architecture choice → implementation task → observed failing regression → fix → passing run → independent review → requirement change → stale evidence. Include actual timings and costs, not a scripted claim of productivity. The invitation contract in this prototype is the planning seed for that demo, not the demo application.
+Use an actual selected application, or clearly label a fixture as synthetic. Show requirements → design → scoped implementation → observed regression → repair → current verification → independent review → changed input → stale evidence. Report actual timings, costs and missing observations without a scripted productivity claim. The invitation example remains a fictional planning fixture, not a demonstrated application.
