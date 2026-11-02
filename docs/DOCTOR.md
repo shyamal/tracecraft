@@ -28,7 +28,7 @@ Output is JSON containing `ok`, `scope`, `project`, `toolkitVersion`, `checks` a
 | `git.available` | Git responds locally. Missing/unresponsive Git is a warning: contract commands can still run. |
 | `project.git` | Git reports a working tree. A non-repository, bare repository or Git access refusal is a warning; Doctor does not change Git safety settings. |
 | `project.artifacts` | `.tracecraft` is an accessible directory, absent, or conflicting with another file. Artifact contents and contract validity are not checked. |
-| `project.config` | Notes whether a config path exists. Configuration loading is not implemented; contents are neither read nor executed. |
+| `project.config` | Notes whether a config path exists. Doctor does not read or execute its contents. Use verify with --dry-run to validate and preview a selected command. |
 | `host.integration` | Explicitly states that native host installation, authentication and model access are not checked. |
 
 Statuses are `pass`, `warn`, `fail` and `info`. `ok` means no failed setup checks; warnings and information can coexist with success. New projects without `.tracecraft` or configuration are valid. Start with `tc-specify` when ready to create feature artifacts.

@@ -1,6 +1,6 @@
 # Execution receipts
 
-The receipt library persists the runner's process observations as versioned JSON. It does not execute commands, interpret assertions, bind source inputs or decide freshness. There is still no `tracecraft verify` CLI command.
+The receipt library persists the runner's process observations as versioned JSON. It does not execute commands, interpret assertions, bind source inputs or decide freshness. The [verify CLI](VERIFY.md) runs a configured check and saves its observation.
 
 ## Use from a local script
 
@@ -34,4 +34,4 @@ Storage is capped at 16 MiB including JSON formatting. The reader reads at most 
 
 Stored text is exactly the runner's sanitized observation; this library does not detect or redact additional secrets. Inspect output and argv before sharing. Do not commit receipts by default merely because they passed validation. See [runner limits](RUNNER.md) for command authorization, redaction and process cleanup boundaries.
 
-The storage library is portable; actual runner execution remains POSIX-only. Cross-platform filesystem behavior requires CI verification. CLI command configuration, input fingerprints and freshness gates are the next integration steps.
+The storage library is portable; actual runner execution remains POSIX-only. Cross-platform filesystem behavior requires CI verification. Input fingerprints and freshness gates are the next integration steps.
