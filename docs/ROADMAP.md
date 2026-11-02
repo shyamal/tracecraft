@@ -32,7 +32,7 @@ The two real changes above were in the same project and completed by the same as
 
 ## Next implementation backlog
 
-1. **Project-local host adapters and installer.** Verify current Codex and Claude skill discovery, then render from canonical skills while preserving their shared references. Add dry-run, collision detection, an owned-file manifest and uninstall. Acceptance: repeat installation is idempotent; existing user files are preserved; uninstall removes only unchanged owned files; no global rules or hidden hooks; the installed tree has no broken references. Native workflow certification requires the separate trials below.
+1. **Native host trials (installer implemented).** The [project-local installer](ADAPTERS.md) provides both discovery layouts, linked resources, preview, collision checks and conservative uninstall, covered by automated tests. Record actual skill discovery and requirements-through-review invocation in each host on a clean consuming project, with host/model/version and observed limitations. Filesystem tests alone do not establish native workflow compatibility.
 2. **Independent handoff and second-application pilot.** Select an application and bounded feature/bug fix with its owner. Have an independent reader resume from persisted artifacts. Record host/model/runtime, actual commands, questions, failures and limits. Acceptance: requirements through review can be followed in two real projects, with current evidence and no unsupported readiness claims. Do not count another Tracecraft change as a second application.
 3. **Consumer CI example.** Add a reproducible example that installs a pinned toolkit revision, runs configured checks and evaluates evidence in a consuming project. Keep secrets/raw logs out of shared artifacts. Acceptance: a changed selected input produces stale evidence, failed checks cannot pass, and missing receipts fail visibly. Toolkit CI alone does not satisfy this item.
 4. **Windows execution support.** Implement and test process-tree cancellation, timeout and cleanup before enabling runner/verify. Acceptance: zero/nonzero exits, spawn failures, literal argv, bounded output, cancellation and child cleanup work on Windows; unsupported behavior is not silently treated as success.
@@ -45,7 +45,7 @@ The two real changes above were in the same project and completed by the same as
 | Seed prototype | Delivered | None for the original structural prototype |
 | Personal alpha | Core tools and skills implemented; same-assistant feature/bug pilots completed | Independent reader can resume the work |
 | Evidence MVP | Runner, receipts, input binding, freshness, aggregation, declared gates and review packets implemented | End-to-end evidence workflow validated in a second real project |
-| Public beta | License, source docs and toolkit CI exist | Host installers/trials, consumer CI example, Windows execution if advertised, packaging/release checks and published pilot results |
+| Public beta | License, source docs and toolkit CI exist | Native host trials, consumer CI example, Windows execution if advertised, packaging/release checks and published pilot results |
 | After feedback | Deferred | Prioritize only demonstrated needs |
 
 No phase completion is inferred from passing unit tests alone. Re-estimate remaining effort after host discovery and selection of the second application; earlier implementation estimates are no longer a useful delivery schedule.

@@ -13,7 +13,7 @@ test('help aliases expose command syntax without creating project files', async 
     const result = spawnSync(process.execPath, [cli, alias], { cwd, encoding: 'utf8' });
     assert.equal(result.status, 0, result.stdout); assert.equal(result.stderr, '');
     const report = JSON.parse(result.stdout); assert.match(report.usage, /Usage: tracecraft/);
-    for (const command of ['help', 'new', 'check', 'impact', 'context', 'doctor', 'migrate', 'verify', 'status', 'evidence', 'readiness', 'review-packet']) assert.ok(report.commands.includes(command), command);
+    for (const command of ['install', 'uninstall', 'help', 'new', 'check', 'impact', 'context', 'doctor', 'migrate', 'verify', 'status', 'evidence', 'readiness', 'review-packet']) assert.ok(report.commands.includes(command), command);
     if (first) assert.deepEqual(report, first); else first = report;
   }
   assert.deepEqual(await readdir(cwd), []);

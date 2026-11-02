@@ -1,5 +1,7 @@
 # Use the workflow skills
 
+For native project discovery, use the [Codex/Claude installer](ADAPTERS.md). Explicit file prompts below remain available without installation.
+
 The repository includes `tc-specify`, `tc-architect`, `tc-plan`, `tc-implement`, `tc-test`, `tc-review` and `tc-impact`. These are usable instruction files with templates and shared guidance. They use your existing coding assistant; the CLI does not call a model.
 
 ## Run from the checkout
@@ -17,7 +19,7 @@ To code a planned task, ask your assistant to read `skills/tc-implement/SKILL.md
 
 For review, ask it to read `skills/tc-review/SKILL.md` and review the selected feature and diff (name the base/head or working-tree scope when known). Review writes findings and evidence/coverage limits without fixing the application. A separate repair step requires its own scope, followed by fresh verification and review of the changed inputs.
 
-No host installation is required for explicit file-based use. Native `$tc-specify` or slash-command discovery depends on the host registering the skill; this delivery does not install global files or claim host certification. `agents/openai.yaml` supplies UI metadata for later host registration. Preserve the whole `skills/` tree when copying it: the skills share `skills/references/contract.md`. Automatic host adapters/installers are still planned.
+No host installation is required for explicit file-based use. Native `$tc-specify` or slash-command discovery depends on the host registering the skill; this delivery does not install global files or claim host certification. `agents/openai.yaml` supplies UI metadata for later host registration. Preserve the whole `skills/` tree when copying it: the skills share `skills/references/contract.md`. Use the explicit installer for project-local discovery; it preserves shared references.
 
 ## Artifacts
 

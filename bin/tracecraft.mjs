@@ -8,17 +8,31 @@ import { featureReadiness } from '../src/policy.mjs';
 import { featureEvidence } from '../src/evidence.mjs';
 import { receiptStatus } from '../src/status.mjs';
 import { verifyFeature } from '../src/verify.mjs';
+import { manageAdapter } from '../src/adapters.mjs';
 import { migrateV1 } from '../src/migrate.mjs';
 
 const emit = value => process.stdout.write(`${JSON.stringify(value, null, 2)}\n`);
 const [command, file, extra, ...rest] = process.argv.slice(2);
-const commands = ['help', 'new', 'check', 'impact', 'context', 'doctor', 'migrate', 'verify', 'status', 'evidence', 'readiness', 'review-packet'];
-const usage = 'Usage: tracecraft new <file> <feature-id> | check <file> [--stage specify|architect|plan] | impact <file> <node-id> | context <file> --stage <specify|architect|plan|implement|test|review> [--max-bytes <2048..1048576>] | doctor [--project <directory>] | migrate <v1-file> <new-v2-file> | verify <feature-file> --project <dir> --command-id <id> --receipt <new-file> [--dry-run] | status <receipt-file> --project <dir> | evidence <manifest-file> --project <dir> | readiness <manifest-file> --project <dir> [--review <project-relative-file>] | review-packet <manifest-file> --project <dir> --diff <relative-file> [--max-bytes <4096..1048576>] | help | --help | -h';
+const commands = ['install', 'uninstall', 'help', 'new', 'check', 'impact', 'context', 'doctor', 'migrate', 'verify', 'status', 'evidence', 'readiness', 'review-packet'];
+const usage = 'Usage: tracecraft install <codex|claude> --project <dir> [--dry-run] | uninstall <codex|claude> --project <dir> [--dry-run] | new <file> <feature-id> | check <file> [--stage specify|architect|plan] | impact <file> <node-id> | context <file> --stage <specify|architect|plan|implement|test|review> [--max-bytes <2048..1048576>] | doctor [--project <directory>] | migrate <v1-file> <new-v2-file> | verify <feature-file> --project <dir> --command-id <id> --receipt <new-file> [--dry-run] | status <receipt-file> --project <dir> | evidence <manifest-file> --project <dir> | readiness <manifest-file> --project <dir> [--review <project-relative-file>] | review-packet <manifest-file> --project <dir> --diff <relative-file> [--max-bytes <4096..1048576>] | help | --help | -h';
 
 async function main() {
   if (['help', '--help', '-h'].includes(command)) {
     if (file !== undefined) throw new Error(usage);
     emit({ usage, commands });
+    return;
+  }
+  if (['install', 'uninstall'].includes(command)) {
+    const options = { host: file };
+    const args = extra === undefined ? [] : [extra, ...rest];
+    for (let i = 0; i < args.length; i++) {
+      if (args[i] === '--dry-run' && !options.dryRun) options.dryRun = true;
+      else if (args[i] === '--project' && !options.project && args[i + 1] && !args[i + 1].startsWith('--')) options.project = args[++i];
+      else throw new Error(usage);
+    }
+    if (!options.project) throw new Error(usage);
+    const report = await manageAdapter(command, options);
+    emit(report); process.exitCode = report.ok ? 0 : 1;
     return;
   }
   let stage = 'plan';

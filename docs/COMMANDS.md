@@ -4,6 +4,8 @@
 
 | Command | Inputs | Output / effects | Failure |
 |---|---|---|---|
+| `tracecraft install <codex\|claude> --project <dir> [--dry-run]` | Explicit host and existing project | Copy native skills, linked resources and ownership manifest; preview is read-only | Collision: exit 1; usage/I/O: exit 2 |
+| `tracecraft uninstall <codex\|claude> --project <dir> [--dry-run]` | Explicit host and project | Remove unchanged owned files; preserve edits | Preserved edits: exit 1; usage/I/O: exit 2 |
 | `tracecraft help` / `--help` / `-h` | No extra arguments | JSON usage and implemented command names; no workflow execution | Extra arguments: exit 2 |
 | `tracecraft new <file> <feature-id>` | Explicit new file path; lowercase hyphenated ID | Draft v2 JSON, exclusive create; parent must already exist | Existing file, invalid ID or I/O: exit 2 |
 | `tracecraft check <file> [--stage specify\|architect\|plan]` | Feature JSON; default stage is plan | Read-only `{ok, scope, stage, diagnostics}` | Invalid contract: exit 1; parse/I/O/usage: exit 2 |
@@ -27,7 +29,7 @@ The [doctor guide](DOCTOR.md) explains runtime/resource checks, optional Git war
 
 ## Assistant skills
 
-Seven skills are implemented under `skills/`: `tc-specify`, `tc-architect`, `tc-plan`, `tc-implement`, `tc-test`, `tc-review` and `tc-impact`. See [usage](SKILLS.md) for explicit file-based invocation and stage checks. Native command discovery depends on host registration; host adapters are not installed by this prototype.
+Seven skills are implemented under `skills/`: `tc-specify`, `tc-architect`, `tc-plan`, `tc-implement`, `tc-test`, `tc-review` and `tc-impact`. See [usage](SKILLS.md) for explicit file-based invocation and stage checks. Native command discovery depends on host registration; use the explicit [project-local installer](ADAPTERS.md).
 
 | Skill | Trigger / inputs | Procedure | Artifacts and exit condition | Allowed effects |
 |---|---|---|---|---|
