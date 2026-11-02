@@ -1,6 +1,6 @@
 # Selected input fingerprints
 
-`fingerprintInputs` in `src/fingerprint.mjs` hashes selected on-disk inputs without requiring Git. It detects dirty and untracked changes within the selected scope. Verify now uses this library for optional [receipt input binding](VERIFY.md#bind-selected-inputs). No status command or later-time freshness gate exists yet.
+`fingerprintInputs` in `src/fingerprint.mjs` hashes selected on-disk inputs without requiring Git. It detects dirty and untracked changes within the selected scope. Verify now uses this library for optional [receipt input binding](VERIFY.md#bind-selected-inputs). The [status command](STATUS.md) now compares an explicit receipt with current selected inputs; feature readiness gates remain planned.
 
 ```js
 import { fingerprintInputs } from './src/fingerprint.mjs';
